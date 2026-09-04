@@ -12,7 +12,7 @@ const itemPedidoSchema = z.object({
 })
 
 const pedidoSchema = z.object({
-  clienteId: z.number(),
+  clienteId: z.string(),
   adminId: z.number(),
   itens: z.array(itemPedidoSchema).min(1, { message: "Pedido deve ter pelo menos 1 item" }),
 })

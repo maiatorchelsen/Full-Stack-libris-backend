@@ -6,11 +6,11 @@ import { authMiddleware } from '../middleware/auth'
 const router = Router()
 
 router.get("/:clienteId", authMiddleware, async (req, res) => {
-  const { clienteId } = req.params
+  const { clienteId } = req.params as { clienteId: string }
 
   try {
     const cliente = await prisma.cliente.findUnique({
-      where: { id: Number(clienteId) },
+      where: { id: clienteId },
     })
 
     if (!cliente) {
@@ -19,7 +19,7 @@ router.get("/:clienteId", authMiddleware, async (req, res) => {
     }
 
     const pedidos = await prisma.pedido.findMany({
-      where: { clienteId: Number(clienteId) },
+      where: { clienteId },
       include: {
         itens: {
           include: {
@@ -81,14 +81,28 @@ router.get("/:clienteId", authMiddleware, async (req, res) => {
       ? cliente.favoritos.split(",").map(g => g.trim()).filter(g => g.length > 0)
       : []
 
-    const idsRecomendados = await recomendarLivros(
-      {
-        generosFavoritos,
-        categoriasCompradas,
-        autoresComprados,
-      },
-      livrosParaIA
-    )
+    let idsRecomendados: number[] = []
+    try {
+      idsRecomendados = await recomendarLivros(
+        {
+          generosFavoritos,
+          categoriasCompradas,
+          autoresComprados,
+        },
+        livrosParaIA
+      )
+    } catch (err) {
+      console.error("Erro na IA de recomendacoes:", err)
+    }
+
+    if (idsRecomendados.length === 0) {
+      res.status(200).json({
+        cliente: cliente.nome,
+        mensagem: "Nao foi possivel gerar recomendacoes no momento.",
+        recomendacoes: []
+      })
+      return
+    }
 
     const livrosRecomendados = await prisma.livro.findMany({
       where: {

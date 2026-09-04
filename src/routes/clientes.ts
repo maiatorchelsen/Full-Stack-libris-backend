@@ -55,7 +55,7 @@ router.delete("/:id", async (req, res) => {
 
   try {
     const cliente = await prisma.cliente.delete({
-      where: { id: Number(id) }
+      where: { id }
     })
     res.status(200).json(cliente)
   } catch (error) {
@@ -77,7 +77,7 @@ router.put("/:id", async (req, res) => {
   try {
     const senhaHash = bcrypt.hashSync(senha, 10)
     const cliente = await prisma.cliente.update({
-      where: { id: Number(id) },
+      where: { id },
       data: { nome, email, senha: senhaHash, tel, rua, numero, bairro, cidade, cep, favoritos }
 
     })
