@@ -20,7 +20,7 @@ router.get("/", authMiddleware, async (req, res) => {
         pedido: { clienteId: req.clienteLogadoId },
       },
       include: {
-        pedido: { select: { id: true, dataPedido: true, status: true } },
+        pedido: { select: { id: true, dataPedido: true, status: true, valorTotal: true } },
         livro: { select: { id: true, titulo: true, capa: true, autor: true } },
       },
     })
