@@ -2,18 +2,18 @@ import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 
 interface TokenPayload {
-  clienteLogadoId?: number;
+  clienteLogadoId?: string;
   clienteLogadoNome?: string;
-  adminLogadoId?: number;
+  adminLogadoId?: string;
   adminLogadoNome?: string;
 }
 
 declare global {
   namespace Express {
     interface Request {
-      clienteLogadoId?: number;
+      clienteLogadoId?: string;
       clienteLogadoNome?: string;
-      adminLogadoId?: number;
+      adminLogadoId?: string;
       adminLogadoNome?: string;
     }
   }

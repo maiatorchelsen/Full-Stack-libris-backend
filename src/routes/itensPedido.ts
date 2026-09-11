@@ -16,6 +16,9 @@ const itemPedidoSchema = z.object({
 router.get("/", authMiddleware, async (req, res) => {
   try {
     const itens = await prisma.itemPedido.findMany({
+      where: {
+        pedido: { clienteId: req.clienteLogadoId },
+      },
       include: {
         pedido: { select: { id: true, dataPedido: true, status: true } },
         livro: { select: { id: true, titulo: true, capa: true, autor: true } },
@@ -32,7 +35,10 @@ router.get("/:id", authMiddleware, async (req, res) => {
 
   try {
     const item = await prisma.itemPedido.findFirst({
-      where: { id: Number(id) },
+      where: {
+        id: Number(id),
+        pedido: { clienteId: req.clienteLogadoId },
+      },
       include: {
         pedido: { select: { id: true, dataPedido: true, status: true, valorTotal: true } },
         livro: { select: { id: true, titulo: true, capa: true, autor: true, preco: true } },

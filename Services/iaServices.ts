@@ -61,12 +61,13 @@ REGRAS:
 
   const texto = response.text ?? ""
 
+  const idsValidos = new Set(livrosDisponiveis.map(l => l.id))
   const ids = texto
     .split(",")
     .map(id => parseInt(id.trim(), 10))
-    .filter(id => !isNaN(id))
+    .filter(id => !isNaN(id) && idsValidos.has(id))
 
-  return ids
+  return [...new Set(ids)].slice(0, 5)
 }
 
 export async function buscarAvaliacoesLivros(
@@ -78,19 +79,24 @@ export async function buscarAvaliacoesLivros(
   ).join("\n")
 
   const prompt = `
-Voce e um especialista em livros. Pesquise em seu conhecimento sobre avaliações, resenhas e opiniões de leitores e críticos sobre os seguintes livros:
+Voce e um especialista em livros e leitor assiduo. Pesquise em seu conhecimento sobre avaliacoes, resenhas e opinioes reais de leitores e criticos sobre os seguintes livros:
 
 ${listaLivros}
 
-Para cada livro, retorne um resumo curto (2 a 3 frases) com o que os leitores e críticos geralmente dizem sobre a obra. Inclua aspectos como: nota geral, pontos fortes, para quem é indicado.
+REGRA IMPORTANTE: para cada livro, escreva um comentario com OPINIAO de leitor/critico. NUNCA escreva uma sinopse ou descricao da historia. O comentario deve:
+1. Ter tom de quem ja leu o livro (primeira pessoa, ex.: "Li este livro e...").
+2. Incluir uma nota geral (ex.: 4.5/5).
+3. Citar 1 ponto forte e 1 ponto fraco.
+4. Dizer para que tipo de leitor e indicado.
+5. Ter no maximo 3 frases curtas.
 
 Retorne EXATAMENTE neste formato JSON (sem texto antes ou depois, sem markdown):
 [
-  {"id": 1, "titulo": "...", "autor": "...", "avaliacao": "resumo aqui"},
-  {"id": 2, "titulo": "...", "autor": "...", "avaliacao": "resumo aqui"}
+  {"id": 1, "titulo": "...", "autor": "...", "avaliacao": "comentario aqui"},
+  {"id": 2, "titulo": "...", "autor": "...", "avaliacao": "comentario aqui"}
 ]
 
-Se não encontrar avaliações para um livro, escreva "Ainda não há avaliações disponíveis para este livro."
+Inclua TODOS os livros listados acima, usando os MESMOS IDs fornecidos. Se nao houver opinioes disponiveis para um livro, escreva: "Ainda nao ha avaliacoes disponiveis para este livro."
 `
 
   const response = await ai.models.generateContent({
@@ -99,26 +105,48 @@ Se não encontrar avaliações para um livro, escreva "Ainda não há avaliaçõ
   })
 
   const texto = response.text ?? ""
+  const avaliacoes = extraiJSON(texto)
+  const porId = new Map(avaliacoes.map(a => [a.id, a]))
 
-  const jsonMatch = texto.match(/\[[\s\S]*\]/)
-  if (!jsonMatch) {
-    return livros.map(l => ({
+  return livros.map(l => {
+    const achado = porId.get(l.id)
+    if (!achado || !achado.avaliacao.trim()) {
+      return {
+        id: l.id,
+        titulo: l.titulo,
+        autor: l.autor,
+        avaliacao: "Ainda não há avaliações disponíveis para este livro.",
+      }
+    }
+    return {
       id: l.id,
       titulo: l.titulo,
       autor: l.autor,
-      avaliacao: "Ainda não há avaliações disponíveis para este livro.",
-    }))
-  }
+      avaliacao: achado.avaliacao,
+    }
+  })
+}
+
+function extraiJSON(texto: string): AvaliacaoLivro[] {
+  const semFence = texto.replace(/```json/gi, "").replace(/```/g, "").trim()
+  const inicio = semFence.indexOf("[")
+  const fim = semFence.lastIndexOf("]")
+  if (inicio === -1 || fim === -1 || fim <= inicio) return []
+
+  const trecho = semFence.slice(inicio, fim + 1)
 
   try {
-    const avaliacoes: AvaliacaoLivro[] = JSON.parse(jsonMatch[0])
-    return avaliacoes
+    const dados = JSON.parse(trecho)
+    if (!Array.isArray(dados)) return []
+    return dados.filter(d =>
+      d && typeof d.id === "number" && typeof d.avaliacao === "string"
+    )
   } catch {
-    return livros.map(l => ({
-      id: l.id,
-      titulo: l.titulo,
-      autor: l.autor,
-      avaliacao: "Ainda não há avaliações disponíveis para este livro.",
-    }))
+    try {
+      const reparado = JSON.parse(trecho.replace(/,\s*([\]}])/g, "$1"))
+      return Array.isArray(reparado) ? reparado : []
+    } catch {
+      return []
+    }
   }
 }

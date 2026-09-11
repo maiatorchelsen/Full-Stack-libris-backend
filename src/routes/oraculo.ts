@@ -81,6 +81,8 @@ router.get("/:clienteId", authMiddleware, async (req, res) => {
       ? cliente.favoritos.split(",").map(g => g.trim()).filter(g => g.length > 0)
       : []
 
+    const errosIA: string[] = []
+
     let idsRecomendados: number[] = []
     try {
       idsRecomendados = await recomendarLivros(
@@ -92,6 +94,8 @@ router.get("/:clienteId", authMiddleware, async (req, res) => {
         livrosParaIA
       )
     } catch (err) {
+      const msg = err instanceof Error ? err.message : String(err)
+      errosIA.push(`Erro ao gerar recomendacoes: ${msg}`)
       console.error("Erro na IA de recomendacoes:", err)
     }
 
@@ -99,7 +103,8 @@ router.get("/:clienteId", authMiddleware, async (req, res) => {
       res.status(200).json({
         cliente: cliente.nome,
         mensagem: "Nao foi possivel gerar recomendacoes no momento.",
-        recomendacoes: []
+        recomendacoes: [],
+        errosIA,
       })
       return
     }
@@ -119,6 +124,8 @@ router.get("/:clienteId", authMiddleware, async (req, res) => {
       }))
       avaliacoes = await buscarAvaliacoesLivros(livrosParaAvaliacao)
     } catch (err) {
+      const msg = err instanceof Error ? err.message : String(err)
+      errosIA.push(`Erro ao buscar avaliacoes: ${msg}`)
       console.error("Erro ao buscar avaliacoes:", err)
     }
 
@@ -138,6 +145,7 @@ router.get("/:clienteId", authMiddleware, async (req, res) => {
         autoresComprados,
       },
       recomendacoes: recomendacoesComAvaliacao,
+      errosIA,
     })
   } catch (error) {
     console.error("Erro no Oraculo:", error)
