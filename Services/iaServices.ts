@@ -1,6 +1,7 @@
 import { GoogleGenAI } from '@google/genai'
 
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY })
+const modelo = process.env.GEMINI_MODEL || "gemini-3.5-flash"
 
 interface LivroInfo {
   id: number
@@ -55,7 +56,7 @@ REGRAS:
 `
 
   const response = await ai.models.generateContent({
-    model: 'gemini-3.6-flash',
+    model: modelo,
     contents: prompt,
   })
 
@@ -100,7 +101,7 @@ Inclua TODOS os livros listados acima, usando os MESMOS IDs fornecidos. Se nao h
 `
 
   const response = await ai.models.generateContent({
-    model: 'gemini-3.6-flash',
+    model: modelo,
     contents: prompt,
   })
 
