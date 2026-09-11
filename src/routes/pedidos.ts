@@ -6,6 +6,9 @@ import { authMiddleware, adminMiddleware } from '../middleware/auth'
 
 const router = Router()
 
+const FRETE_GRATIS_LIMITE = 199
+const FRETE_VALOR = 19.9
+
 const itemPedidoSchema = z.object({
   livroId: z.number(),
   quantidade: z.number().int().positive(),
@@ -81,8 +84,8 @@ router.post("/", authMiddleware, async (req, res) => {
       where: { id: { in: livrosIds } },
     })
 
-    // Calcula o valor total
-    let valorTotal = 0
+    // Calcula o valor total (subtotal + frete)
+    let subtotal = 0
     const itensComPreco = itens.map(item => {
       const livro = livros.find(l => l.id === item.livroId)
       if (!livro) {
@@ -92,9 +95,12 @@ router.post("/", authMiddleware, async (req, res) => {
         throw new Error(`Estoque insuficiente para o livro "${livro.titulo}"`)
       }
       const precoUnitario = Number(livro.preco)
-      valorTotal += precoUnitario * item.quantidade
+      subtotal += precoUnitario * item.quantidade
       return { ...item, precoUnitario }
     })
+
+    const frete = subtotal < FRETE_GRATIS_LIMITE ? FRETE_VALOR : 0
+    const valorTotal = subtotal + frete
 
     // Cria o pedido com os itens em uma transação
     const pedido = await prisma.$transaction(async (tx) => {
