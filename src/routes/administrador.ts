@@ -6,6 +6,13 @@ import { adminMiddleware } from '../middleware/auth'
 
 const router = Router()
 
+const itemPedidoSchema = z.object({
+  quantidade: z.number().int().positive(),
+  precoUnitario: z.number().positive(),
+  pedidoId: z.number(),
+  livroId: z.number(),
+})
+
 // Todas as rotas exigem autenticação de admin
 router.use(adminMiddleware)
 
@@ -199,6 +206,115 @@ description: 'Dados inválidos.'
       where: { id: Number(id) },
     })
     res.status(200).json(pedido)
+  } catch (error) {
+    res.status(400).json({ erro: error })
+  }
+})
+
+// ==================== ITENS DE PEDIDO ====================
+
+router.post("/itens-pedido", async (req, res) => {
+   /*
+#swagger.tags = ['Itens de Pedido Admin']
+#swagger.summary = 'Cadastra um item de pedido'
+#swagger.description = 'Realiza o cadastro de um novo item de pedido.'
+#swagger.parameters['body'] = {
+in: 'body',
+required: true,
+schema: {
+quantidade: 2,
+precoUnitario: 29.99,
+pedidoId: 1,
+livroId: 1          
+}
+#swagger.responses[200] = {
+description: 'Item de pedido cadastrado com sucesso.'
+}
+#swagger.responses[400] = {
+description: 'Dados inválidos.'
+}
+*/
+  const valida = itemPedidoSchema.safeParse(req.body)
+  if (!valida.success) {
+    res.status(400).json({ erro: valida.error })
+    return
+  }
+
+  try {
+    const item = await prisma.itemPedido.create({ data: valida.data })
+    res.status(201).json(item)
+  } catch (error) {
+    res.status(400).json({ erro: error })
+  }
+})
+
+router.put("/itens-pedido/:id", async (req, res) => {
+   /*
+#swagger.tags = ['Itens de Pedido Admin']
+#swagger.summary = 'Atualiza um item de pedido'
+#swagger.description = 'Atualiza os dados de um item de pedido existente.'
+#swagger.parameters['id'] = {
+in: 'path',
+required: true,
+schema: {
+type: 'string'
+}
+}
+#swagger.parameters['body'] = {
+in: 'body',
+required: true,
+schema: {
+id: 1
+}
+}
+#swagger.responses[200] = {
+description: 'Item de pedido atualizado com sucesso.'
+}
+#swagger.responses[400] = {
+description: 'Dados inválidos.'
+}
+*/
+  const valida = itemPedidoSchema.safeParse(req.body)
+  if (!valida.success) {
+    res.status(400).json({ erro: valida.error })
+    return
+  }
+
+  try {
+    const item = await prisma.itemPedido.update({
+      where: { id: Number(req.params.id) },
+      data: valida.data,
+    })
+    res.status(200).json(item)
+  } catch (error) {
+    res.status(400).json({ erro: error })
+  }
+})
+
+router.delete("/itens-pedido/:id", async (req, res) => {
+   /*
+#swagger.tags = ['Itens de Pedido Admin']
+#swagger.summary = 'Exclui um item de pedido'
+#swagger.description = 'Exclui um item de pedido existente.'
+#swagger.parameters['id'] = {
+in: 'path',
+required: true,
+schema: {
+type: 'string'
+}
+}
+#swagger.responses[200] = {
+description: 'Item de pedido excluído com sucesso.'
+}
+#swagger.responses[400] = {
+description: 'Dados inválidos.'
+}
+*/
+  try {
+    const item = await prisma.itemPedido.delete({
+      where: { id: Number(req.params.id) },
+    })
+    res.status(200).json(item)
   } catch (error) {
     res.status(400).json({ erro: error })
   }
