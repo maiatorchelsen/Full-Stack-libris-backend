@@ -71,6 +71,10 @@ npm start          # produção
 
 O servidor fica disponível em `http://localhost:3000`.
 
+A documentação Swagger fica disponível em `http://localhost:3000/docs` e o
+documento OpenAPI em `http://localhost:3000/docs.json`. No Render, use a mesma
+rota `/docs` após o domínio público do serviço.
+
 ## Scripts
 
 | Comando            | Descrição                              |

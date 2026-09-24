@@ -1,5 +1,7 @@
 import express from 'express'
 import cors from 'cors'
+import swaggerUi from 'swagger-ui-express'
+import { readFileSync } from 'node:fs'
 
 import routesClientes from './routes/clientes'
 import routesLivros from './routes/livros'
@@ -11,10 +13,20 @@ import routesItensPedido from './routes/itensPedido'
 import routesOraculo from './routes/oraculo'
 
 const app = express()
-const port = 3000
+const port = Number(process.env.PORT) || 3000
+const swaggerDocument = JSON.parse(
+  readFileSync(new URL('../swagger-output.json', import.meta.url), 'utf8'),
+)
+swaggerDocument.servers = [{
+  url: process.env.RENDER_EXTERNAL_URL || `http://localhost:${port}`,
+}]
 
 app.use(express.json())
 app.use(cors())
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
+app.get('/docs.json', (req, res) => {
+  res.json(swaggerDocument)
+})
 
 app.use("/clientes", routesClientes)
 app.use("/livros", routesLivros)
@@ -29,6 +41,6 @@ app.get('/', (req, res) => {
   res.send('API: Livraria Online')
 })
 
-app.listen(port, () => {
+app.listen(port, '0.0.0.0', () => {
   console.log(`Servidor rodando na porta: ${port}`)
 })
