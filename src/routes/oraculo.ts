@@ -10,6 +10,11 @@ router.get("/:clienteId", authMiddleware, async (req, res) => {
 #swagger.tags = ['Oráculo']
 #swagger.summary = 'Gera recomendações de livros para um cliente'
 #swagger.description = 'Gera recomendações de livros para um cliente com base em seu histórico de compras e preferências.'
+#swagger.security = [
+  {
+    "bearerAuth": []
+  }
+]
 #swagger.parameters['authorization'] = {
 in: 'header',
 required: true,

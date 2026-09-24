@@ -24,6 +24,11 @@ router.get("/pedidos", async (req, res) => {
 #swagger.tags = ['Pedidos Admin']
 #swagger.summary = 'Consulta todos os pedidos'
 #swagger.description = 'Consulta todos os pedidos registrados.'
+#swagger.security = [
+  {
+    "bearerAuth": []
+  }
+]
 #swagger.parameters['authorization'] = {
 in: 'header',
 required: true,
@@ -64,6 +69,11 @@ router.get("/pedidos/:id", async (req, res) => {
 #swagger.tags = ['Pedidos Admin']
 #swagger.summary = 'Consulta um pedido'
 #swagger.description = 'Consulta os dados de um pedido.'
+#swagger.security = [
+  {
+    "bearerAuth": []
+  }
+]
 #swagger.parameters['authorization'] = {
 in: 'header',
 required: true,
@@ -126,6 +136,11 @@ router.put("/pedidos/:id", async (req, res) => {
 #swagger.tags = ['Pedidos Admin']
 #swagger.summary = 'Atualiza o status de um pedido'
 #swagger.description = 'Atualiza o status de um pedido.'
+#swagger.security = [
+  {
+    "bearerAuth": []
+  }
+]
 #swagger.parameters['authorization'] = {
 in: 'header',
 required: true,
@@ -199,6 +214,11 @@ router.put("/pedidos/:id/enviar", async (req, res) => {
 #swagger.tags = ['Pedidos Admin']
 #swagger.summary = 'Envia um pedido'
 #swagger.description = 'Envia um pedido para o cliente.'
+#swagger.security = [
+  {
+    "bearerAuth": []
+  }
+]
 #swagger.parameters['authorization'] = {
 in: 'header',
 required: true,
@@ -271,6 +291,11 @@ router.delete("/pedidos/:id", async (req, res) => {
 #swagger.tags = ['Pedidos Admin']
 #swagger.summary = 'Exclui um pedido'
 #swagger.description = 'Exclui um pedido existente.'
+#swagger.security = [
+  {
+    "bearerAuth": []
+  }
+]
 #swagger.parameters['authorization'] = {
 in: 'header',
 required: true,
@@ -323,6 +348,11 @@ router.post("/itens-pedido", async (req, res) => {
 #swagger.tags = ['Itens de Pedido Admin']
 #swagger.summary = 'Cadastra um item de pedido'
 #swagger.description = 'Realiza o cadastro de um novo item de pedido.'
+#swagger.security = [
+  {
+    "bearerAuth": []
+  }
+]
 #swagger.parameters['authorization'] = {
 in: 'header',
 required: true,
@@ -367,6 +397,11 @@ router.put("/itens-pedido/:id", async (req, res) => {
 #swagger.tags = ['Itens de Pedido Admin']
 #swagger.summary = 'Atualiza um item de pedido'
 #swagger.description = 'Atualiza os dados de um item de pedido existente.'
+#swagger.security = [
+  {
+    "bearerAuth": []
+  }
+]
 #swagger.parameters['authorization'] = {
 in: 'header',
 required: true,
@@ -418,6 +453,11 @@ router.delete("/itens-pedido/:id", async (req, res) => {
 #swagger.tags = ['Itens de Pedido Admin']
 #swagger.summary = 'Exclui um item de pedido'
 #swagger.description = 'Exclui um item de pedido existente.'
+#swagger.security = [
+  {
+    "bearerAuth": []
+  }
+]
 #swagger.parameters['authorization'] = {
 in: 'header',
 required: true,
@@ -472,6 +512,11 @@ router.post("/livros", async (req, res) => {
 #swagger.tags = ['Livros Admin']
 #swagger.summary = 'Cadastra um livro'
 #swagger.description = 'Realiza o cadastro de um novo livro.'
+#swagger.security = [
+  {
+    "bearerAuth": []
+  }
+]
 #swagger.parameters['authorization'] = {
 in: 'header',
 required: true,
@@ -532,6 +577,11 @@ router.delete("/livros/:id", async (req, res) => {
 #swagger.tags = ['Livros Admin']
 #swagger.summary = 'Exclui um livro'
 #swagger.description = 'Realiza a exclusão de um livro existente.'
+#swagger.security = [
+  {
+    "bearerAuth": []
+  }
+]
 #swagger.parameters['authorization'] = {
 in: 'header',
 required: true,
@@ -573,6 +623,11 @@ router.put("/livros/:id", async (req, res) => {
 #swagger.tags = ['Livros Admin']
 #swagger.summary = 'Atualiza um livro'
 #swagger.description = 'Realiza a atualização de um livro existente.'
+#swagger.security = [
+  {
+    "bearerAuth": []
+  }
+]
 #swagger.parameters['authorization'] = {
 in: 'header',
 required: true,

@@ -6,7 +6,16 @@ description: "Documentação da API da livraria online Libris",
 version: "1.0.0"
 },
 servers: [{url: "http://localhost:3000"}
-]
+],
+components: {
+securitySchemes: {
+bearerAuth: {
+type: "http",
+scheme: "bearer",
+bearerFormat: "JWT"
+}
+}
+}
 };
 const outputFile = "./swagger-output.json";
 // Arquivo principal que registra as rotas
