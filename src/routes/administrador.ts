@@ -104,6 +104,71 @@ description: 'Dados inválidos.'
   }
 })
 
+// Atualizar status de um pedido
+router.put("/pedidos/:id", async (req, res) => {
+  /*
+#swagger.tags = ['Pedidos Admin']
+#swagger.summary = 'Atualiza o status de um pedido'
+#swagger.description = 'Atualiza o status de um pedido.'
+#swagger.parameters['id'] = {
+in: 'path',
+required: true,
+schema: {
+type: 'string'
+}
+}
+#swagger.parameters['body'] = {
+in: 'body',
+required: true,
+schema: {
+status: 'PENDENTE'
+}
+}
+#swagger.responses[200] = {
+description: 'Status atualizado com sucesso.'
+}
+#swagger.responses[400] = {
+description: 'Dados inválidos.'
+}
+*/
+  const { id } = req.params
+
+  const statusSchema = z.object({
+    status: z.enum(["PENDENTE", "PROCESSANDO", "ENVIADO", "ENTREGUE", "CANCELADO"]),
+  })
+
+  const valida = statusSchema.safeParse(req.body)
+
+  if (!valida.success) {
+    res.status(400).json({ erro: valida.error })
+    return
+  }
+
+  try {
+    const pedido = await prisma.pedido.findUnique({
+      where: { id: Number(id) },
+    })
+
+    if (!pedido) {
+      res.status(404).json({ erro: "Pedido não encontrado" })
+      return
+    }
+
+    const atualizado = await prisma.pedido.update({
+      where: { id: Number(id) },
+      data: { status: valida.data.status },
+      include: {
+        cliente: { select: { id: true, nome: true, email: true } },
+        itens: true,
+      },
+    })
+
+    res.status(200).json(atualizado)
+  } catch (error) {
+    res.status(400).json({ erro: error })
+  }
+})
+
 // Enviar pedido para o cliente (status -> ENVIADO)
 router.put("/pedidos/:id/enviar", async (req, res) => {
   /*
