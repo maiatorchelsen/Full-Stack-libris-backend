@@ -110,6 +110,34 @@
                 "senha": {
                   "type": "string",
                   "example": "123456"
+                },
+                "tel": {
+                  "type": "string",
+                  "example": "123456789"
+                },
+                "rua": {
+                  "type": "string",
+                  "example": "Rua Exemplo"
+                },
+                "numero": {
+                  "type": "string",
+                  "example": "123"
+                },
+                "bairro": {
+                  "type": "string",
+                  "example": "Bairro Exemplo"
+                },
+                "cidade": {
+                  "type": "string",
+                  "example": "Cidade Exemplo"
+                },
+                "cep": {
+                  "type": "string",
+                  "example": "12345-678"
+                },
+                "favoritos": {
+                  "type": "string",
+                  "example": "Livro1, Livro2"
                 }
               }
             }
@@ -206,6 +234,34 @@
                 "senha": {
                   "type": "string",
                   "example": "123456"
+                },
+                "tel": {
+                  "type": "string",
+                  "example": "123456789"
+                },
+                "rua": {
+                  "type": "string",
+                  "example": "Rua Exemplo"
+                },
+                "numero": {
+                  "type": "string",
+                  "example": "123"
+                },
+                "bairro": {
+                  "type": "string",
+                  "example": "Bairro Exemplo"
+                },
+                "cidade": {
+                  "type": "string",
+                  "example": "Cidade Exemplo"
+                },
+                "cep": {
+                  "type": "string",
+                  "example": "12345-678"
+                },
+                "favoritos": {
+                  "type": "string",
+                  "example": "Livro1, Livro2"
                 }
               }
             }

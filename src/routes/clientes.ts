@@ -3,6 +3,7 @@ import { prisma } from "../../lib/prisma";
 import { Router } from 'express'
 import { z } from 'zod'
 import bcrypt from 'bcrypt'
+import { authMiddleware } from '../middleware/auth'
 
 const router = Router()
 
@@ -20,7 +21,7 @@ const clienteSchema = z.object({
   favoritos: z.string().nullable().optional(),
 })
 
-router.get("/", async (req, res) => {
+router.get("/", authMiddleware, async (req, res) => {
   /*
 #swagger.tags = ['Clientes']
 #swagger.summary = 'Consulta um cliente'
@@ -67,7 +68,14 @@ required: true,
 schema: {
 nome: 'João da Silva',
 email: 'joao@email.com',
-senha: '123456'
+senha: '123456',
+tel: '123456789',
+rua: 'Rua Exemplo',
+numero: '123',
+bairro: 'Bairro Exemplo',
+cidade: 'Cidade Exemplo',
+cep: '12345-678',
+favoritos: 'Livro1, Livro2' 
 }
 }
 #swagger.responses[201] = {
@@ -97,7 +105,7 @@ description: 'Dados inválidos.'
   }
 })
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", authMiddleware, async (req, res) => {
   /*
 #swagger.tags = ['Clientes']
 #swagger.summary = 'Exclui um cliente'
@@ -127,6 +135,11 @@ description: 'Dados inválidos.'
 */
   const { id } = req.params
 
+  if (id !== req.clienteLogadoId) {
+    res.status(403).json({ erro: "Acesso negado. Você só pode excluir a própria conta." })
+    return
+  }
+
   try {
     const cliente = await prisma.cliente.delete({
       where: { id }
@@ -137,7 +150,7 @@ description: 'Dados inválidos.'
   }
 })
 
-router.put("/:id", async (req, res) => {
+router.put("/:id", authMiddleware, async (req, res) => {
   /*
 #swagger.tags = ['Clientes']
 #swagger.summary = 'Atualiza um cliente'
@@ -155,7 +168,14 @@ required: true,
 schema: {
 nome: 'João da Silva',
 email: 'joao@email.com',
-senha: '123456'
+senha: '123456',
+tel: '123456789',
+rua: 'Rua Exemplo',
+numero: '123',
+bairro: 'Bairro Exemplo',
+cidade: 'Cidade Exemplo',
+cep: '12345-678',
+favoritos: 'Livro1, Livro2' 
 }
 }
 #swagger.responses[201] = {
@@ -166,6 +186,11 @@ description: 'Dados inválidos.'
 }
 */
   const { id } = req.params
+
+  if (id !== req.clienteLogadoId) {
+    res.status(403).json({ erro: "Acesso negado. Você só pode atualizar a própria conta." })
+    return
+  }
 
   const valida = clienteSchema.safeParse(req.body)
   if (!valida.success) {
