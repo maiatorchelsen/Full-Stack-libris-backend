@@ -89,13 +89,7 @@ schema: {
 type: 'string'
 }
 }
-#swagger.parameters['body'] = {
-in: 'body',
-required: true,
-schema: {
-id: 1
-}
-}
+
 #swagger.responses[201] = {
 description: 'Pedido consultado com sucesso.'
 }
@@ -156,8 +150,7 @@ schema: {
 type: 'string'
 }
 }
-#swagger.parameters['body'] = {
-in: 'body',
+#swagger.requestBody = {
 required: true,
 schema: {
 status: 'PENDENTE'
@@ -234,13 +227,7 @@ schema: {
 type: 'string'
 }
 }
-#swagger.parameters['body'] = {
-in: 'body',
-required: true,
-schema: {
-id: 1
-}
-}
+
 #swagger.responses[201] = {
 description: 'Pedido enviado com sucesso.'
 }
@@ -311,13 +298,7 @@ schema: {
 type: 'string'
 }
 }
-#swagger.parameters['body'] = {
-in: 'body',
-required: true,
-schema: {
-id: 1
-}
-}
+
 #swagger.responses[200] = {
 description: 'Pedido excluído com sucesso.'
 }
@@ -361,8 +342,7 @@ schema: {
 type: 'string'
 }
 }
-#swagger.parameters['body'] = {
-in: 'body',
+#swagger.requestBody = {
 required: true,
 schema: {
 quantidade: 2,
@@ -417,13 +397,7 @@ schema: {
 type: 'string'
 }
 }
-#swagger.parameters['body'] = {
-in: 'body',
-required: true,
-schema: {
-id: 1
-}
-}
+
 #swagger.responses[200] = {
 description: 'Item de pedido atualizado com sucesso.'
 }
@@ -525,8 +499,7 @@ schema: {
 type: 'string'
 }
 }
-#swagger.parameters['body'] = {
-in: 'body',
+#swagger.requestBody = {
 required: true,
 schema: {
 titulo: 'O Senhor dos Anéis',
@@ -590,13 +563,7 @@ schema: {
 type: 'string'
 }
 }
-#swagger.parameters['body'] = {
-in: 'body',
-required: true,
-schema: {
-id: 1
-}
-}
+
 #swagger.responses[200] = {
 description: 'Livro excluído com sucesso.'
 }
@@ -636,8 +603,7 @@ schema: {
 type: 'string'
 }
 }
-#swagger.parameters['body'] = {
-in: 'body',
+#swagger.requestBody = {
 required: true,
 schema: {
 titulo: 'O Senhor dos Anéis',

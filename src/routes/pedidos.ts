@@ -149,7 +149,7 @@ schema: {
 type: 'string'
 }
 }
-in: 'body',
+#swagger.requestBody = {
 required: true,
 schema: {
 clienteId: 'string',
@@ -160,6 +160,7 @@ livroId: 1,
 quantidade: 2
 }
 ]
+}
 }
 #swagger.responses[200] = {
 description: 'Pedido criado com sucesso.'

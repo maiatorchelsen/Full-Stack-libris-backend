@@ -59,8 +59,7 @@ router.post("/", async (req, res) => {
 #swagger.tags = ['Clientes']
 #swagger.summary = 'Cadastra um cliente'
 #swagger.description = 'Realiza o cadastro de um novo cliente.'
-#swagger.parameters['body'] = {
-in: 'body',
+#swagger.requestBody = {
 required: true,
 schema: {
 nome: 'João da Silva',
@@ -179,8 +178,7 @@ schema: {
 type: 'string'
 }
 }
-#swagger.parameters['body'] = {
-in: 'body',
+#swagger.requestBody = {
 required: true,
 schema: {
 nome: 'João da Silva',

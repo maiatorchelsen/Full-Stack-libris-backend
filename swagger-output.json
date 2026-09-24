@@ -72,64 +72,45 @@
         ],
         "summary": "Cadastra um cliente",
         "description": "Realiza o cadastro de um novo cliente.",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "type": "object",
-              "properties": {
-                "nome": {
-                  "type": "string",
-                  "example": "João da Silva"
-                },
-                "email": {
-                  "type": "string",
-                  "example": "joao@email.com"
-                },
-                "senha": {
-                  "type": "string",
-                  "example": "123456"
-                },
-                "tel": {
-                  "type": "string",
-                  "example": "123456789"
-                },
-                "rua": {
-                  "type": "string",
-                  "example": "Rua Exemplo"
-                },
-                "numero": {
-                  "type": "string",
-                  "example": "123"
-                },
-                "bairro": {
-                  "type": "string",
-                  "example": "Bairro Exemplo"
-                },
-                "cidade": {
-                  "type": "string",
-                  "example": "Cidade Exemplo"
-                },
-                "cep": {
-                  "type": "string",
-                  "example": "12345-678"
-                },
-                "favoritos": {
-                  "type": "string",
-                  "example": "Livro1, Livro2"
-                }
-              }
-            }
-          }
-        ],
         "responses": {
           "201": {
             "description": "Cliente cadastrado com sucesso."
           },
           "400": {
             "description": "Dados inválidos."
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "nome": "João da Silva",
+                "email": "joao@email.com",
+                "senha": "123456",
+                "tel": "123456789",
+                "rua": "Rua Exemplo",
+                "numero": "123",
+                "bairro": "Bairro Exemplo",
+                "cidade": "Cidade Exemplo",
+                "cep": "12345-678",
+                "favoritos": "Livro1, Livro2"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "nome": "João da Silva",
+                "email": "joao@email.com",
+                "senha": "123456",
+                "tel": "123456789",
+                "rua": "Rua Exemplo",
+                "numero": "123",
+                "bairro": "Bairro Exemplo",
+                "cidade": "Cidade Exemplo",
+                "cep": "12345-678",
+                "favoritos": "Livro1, Livro2"
+              }
+            }
           }
         }
       }
@@ -203,56 +184,6 @@
             "schema": {
               "type": "string"
             }
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "type": "object",
-              "properties": {
-                "nome": {
-                  "type": "string",
-                  "example": "João da Silva"
-                },
-                "email": {
-                  "type": "string",
-                  "example": "joao@email.com"
-                },
-                "senha": {
-                  "type": "string",
-                  "example": "123456"
-                },
-                "tel": {
-                  "type": "string",
-                  "example": "123456789"
-                },
-                "rua": {
-                  "type": "string",
-                  "example": "Rua Exemplo"
-                },
-                "numero": {
-                  "type": "string",
-                  "example": "123"
-                },
-                "bairro": {
-                  "type": "string",
-                  "example": "Bairro Exemplo"
-                },
-                "cidade": {
-                  "type": "string",
-                  "example": "Cidade Exemplo"
-                },
-                "cep": {
-                  "type": "string",
-                  "example": "12345-678"
-                },
-                "favoritos": {
-                  "type": "string",
-                  "example": "Livro1, Livro2"
-                }
-              }
-            }
           }
         ],
         "responses": {
@@ -273,7 +204,40 @@
           {
             "bearerAuth": []
           }
-        ]
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "nome": "João da Silva",
+                "email": "joao@email.com",
+                "senha": "123456",
+                "tel": "123456789",
+                "rua": "Rua Exemplo",
+                "numero": "123",
+                "bairro": "Bairro Exemplo",
+                "cidade": "Cidade Exemplo",
+                "cep": "12345-678",
+                "favoritos": "Livro1, Livro2"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "nome": "João da Silva",
+                "email": "joao@email.com",
+                "senha": "123456",
+                "tel": "123456789",
+                "rua": "Rua Exemplo",
+                "numero": "123",
+                "bairro": "Bairro Exemplo",
+                "cidade": "Cidade Exemplo",
+                "cep": "12345-678",
+                "favoritos": "Livro1, Livro2"
+              }
+            }
+          }
+        }
       }
     },
     "/livros/": {
@@ -497,7 +461,36 @@
           {
             "bearerAuth": []
           }
-        ]
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "clienteId": "string",
+                "adminId": 1,
+                "itens": [
+                  {
+                    "livroId": 1,
+                    "quantidade": 2
+                  }
+                ]
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "clienteId": "string",
+                "adminId": 1,
+                "itens": [
+                  {
+                    "livroId": 1,
+                    "quantidade": 2
+                  }
+                ]
+              }
+            }
+          }
+        }
       }
     },
     "/pedidos/{id}": {
@@ -616,20 +609,6 @@
             "schema": {
               "type": "string"
             }
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "type": "object",
-              "properties": {
-                "id": {
-                  "type": "number",
-                  "example": 1
-                }
-              }
-            }
           }
         ],
         "responses": {
@@ -684,20 +663,6 @@
             "schema": {
               "type": "string"
             }
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "string",
-                  "example": "PENDENTE"
-                }
-              }
-            }
           }
         ],
         "responses": {
@@ -721,7 +686,22 @@
           {
             "bearerAuth": []
           }
-        ]
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "status": "PENDENTE"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "status": "PENDENTE"
+              }
+            }
+          }
+        }
       },
       "delete": {
         "tags": [
@@ -745,20 +725,6 @@
             "description": "Token de autenticação (Bearer) — apenas admins",
             "schema": {
               "type": "string"
-            }
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "type": "object",
-              "properties": {
-                "id": {
-                  "type": "number",
-                  "example": 1
-                }
-              }
             }
           }
         ],
@@ -807,20 +773,6 @@
             "schema": {
               "type": "string"
             }
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "type": "object",
-              "properties": {
-                "id": {
-                  "type": "number",
-                  "example": 1
-                }
-              }
-            }
           }
         ],
         "responses": {
@@ -866,32 +818,6 @@
             "schema": {
               "type": "string"
             }
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "type": "object",
-              "properties": {
-                "quantidade": {
-                  "type": "number",
-                  "example": 2
-                },
-                "precoUnitario": {
-                  "type": "number",
-                  "example": 29.99
-                },
-                "pedidoId": {
-                  "type": "number",
-                  "example": 1
-                },
-                "livroId": {
-                  "type": "number",
-                  "example": 1
-                }
-              }
-            }
           }
         ],
         "responses": {
@@ -915,7 +841,28 @@
           {
             "bearerAuth": []
           }
-        ]
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "quantidade": 2,
+                "precoUnitario": 29.99,
+                "pedidoId": 1,
+                "livroId": 1
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "quantidade": 2,
+                "precoUnitario": 29.99,
+                "pedidoId": 1,
+                "livroId": 1
+              }
+            }
+          }
+        }
       }
     },
     "/administrador/itens-pedido/{id}": {
@@ -941,20 +888,6 @@
             "description": "Token de autenticação (Bearer) — apenas admins",
             "schema": {
               "type": "string"
-            }
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "type": "object",
-              "properties": {
-                "id": {
-                  "type": "number",
-                  "example": 1
-                }
-              }
             }
           }
         ],
@@ -1040,60 +973,6 @@
             "schema": {
               "type": "string"
             }
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "type": "object",
-              "properties": {
-                "titulo": {
-                  "type": "string",
-                  "example": "O Senhor dos Anéis"
-                },
-                "isbn": {
-                  "type": "string",
-                  "example": "978-0-345-33968-9"
-                },
-                "preco": {
-                  "type": "number",
-                  "example": 29.99
-                },
-                "autor": {
-                  "type": "string",
-                  "example": "J.R.R. Tolkien"
-                },
-                "editora": {
-                  "type": "string",
-                  "example": "HarperCollins"
-                },
-                "categoria": {
-                  "type": "string",
-                  "example": "Fantasia"
-                },
-                "capa": {
-                  "type": "string",
-                  "example": "https://example.com/capa.jpg"
-                },
-                "descricao": {
-                  "type": "string",
-                  "example": "Um clássico da literatura fantástica."
-                },
-                "anoPublicacao": {
-                  "type": "number",
-                  "example": 1954
-                },
-                "estoque": {
-                  "type": "number",
-                  "example": 10
-                },
-                "adminId": {
-                  "type": "number",
-                  "example": 1
-                }
-              }
-            }
           }
         ],
         "responses": {
@@ -1114,7 +993,42 @@
           {
             "bearerAuth": []
           }
-        ]
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "titulo": "O Senhor dos Anéis",
+                "isbn": "978-0-345-33968-9",
+                "preco": 29.99,
+                "autor": "J.R.R. Tolkien",
+                "editora": "HarperCollins",
+                "categoria": "Fantasia",
+                "capa": "https://example.com/capa.jpg",
+                "descricao": "Um clássico da literatura fantástica.",
+                "anoPublicacao": 1954,
+                "estoque": 10,
+                "adminId": 1
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "titulo": "O Senhor dos Anéis",
+                "isbn": "978-0-345-33968-9",
+                "preco": 29.99,
+                "autor": "J.R.R. Tolkien",
+                "editora": "HarperCollins",
+                "categoria": "Fantasia",
+                "capa": "https://example.com/capa.jpg",
+                "descricao": "Um clássico da literatura fantástica.",
+                "anoPublicacao": 1954,
+                "estoque": 10,
+                "adminId": 1
+              }
+            }
+          }
+        }
       }
     },
     "/administrador/livros/{id}": {
@@ -1140,20 +1054,6 @@
             "description": "Token de autenticação (Bearer) — apenas admins",
             "schema": {
               "type": "string"
-            }
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "type": "object",
-              "properties": {
-                "id": {
-                  "type": "number",
-                  "example": 1
-                }
-              }
             }
           }
         ],
@@ -1200,60 +1100,6 @@
             "schema": {
               "type": "string"
             }
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "type": "object",
-              "properties": {
-                "titulo": {
-                  "type": "string",
-                  "example": "O Senhor dos Anéis"
-                },
-                "isbn": {
-                  "type": "string",
-                  "example": "978-0-345-33968-9"
-                },
-                "preco": {
-                  "type": "number",
-                  "example": 29.99
-                },
-                "autor": {
-                  "type": "string",
-                  "example": "J.R.R. Tolkien"
-                },
-                "editora": {
-                  "type": "string",
-                  "example": "HarperCollins"
-                },
-                "categoria": {
-                  "type": "string",
-                  "example": "Fantasia"
-                },
-                "capa": {
-                  "type": "string",
-                  "example": "https://example.com/capa.jpg"
-                },
-                "descricao": {
-                  "type": "string",
-                  "example": "Um clássico da literatura fantástica."
-                },
-                "anoPublicacao": {
-                  "type": "number",
-                  "example": 1954
-                },
-                "estoque": {
-                  "type": "number",
-                  "example": 10
-                },
-                "adminId": {
-                  "type": "number",
-                  "example": 1
-                }
-              }
-            }
           }
         ],
         "responses": {
@@ -1277,7 +1123,42 @@
           {
             "bearerAuth": []
           }
-        ]
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "titulo": "O Senhor dos Anéis",
+                "isbn": "978-0-345-33968-9",
+                "preco": 29.99,
+                "autor": "J.R.R. Tolkien",
+                "editora": "HarperCollins",
+                "categoria": "Fantasia",
+                "capa": "https://example.com/capa.jpg",
+                "descricao": "Um clássico da literatura fantástica.",
+                "anoPublicacao": 1954,
+                "estoque": 10,
+                "adminId": 1
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "titulo": "O Senhor dos Anéis",
+                "isbn": "978-0-345-33968-9",
+                "preco": 29.99,
+                "autor": "J.R.R. Tolkien",
+                "editora": "HarperCollins",
+                "categoria": "Fantasia",
+                "capa": "https://example.com/capa.jpg",
+                "descricao": "Um clássico da literatura fantástica.",
+                "anoPublicacao": 1954,
+                "estoque": 10,
+                "adminId": 1
+              }
+            }
+          }
+        }
       }
     },
     "/itens-pedido/": {
