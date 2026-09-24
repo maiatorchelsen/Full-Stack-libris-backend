@@ -25,7 +25,7 @@ router.get("/", authMiddleware, async (req, res) => {
 #swagger.tags = ['Pedidos']
 #swagger.summary = 'Lista os pedidos do cliente autenticado'
 #swagger.description = 'Retorna apenas os pedidos do cliente autenticado.'
-#swagger.parameters['Authorization'] = {
+#swagger.parameters['authorization'] = {
 in: 'header',
 required: true,
 description: 'Token de autenticação (Bearer)',
@@ -68,7 +68,7 @@ router.get("/:id", authMiddleware, async (req, res) => {
 #swagger.tags = ['Pedidos']
 #swagger.summary = 'Obtém um pedido pelo ID'
 #swagger.description = 'Retorna os detalhes de um pedido específico com base no ID fornecido.'
-#swagger.parameters['Authorization'] = {
+#swagger.parameters['authorization'] = {
 in: 'header',
 required: true,
 description: 'Token de autenticação (Bearer)',
@@ -126,7 +126,7 @@ router.post("/", authMiddleware, async (req, res) => {
 #swagger.tags = ['Pedidos']
 #swagger.summary = 'Cria um novo pedido'
 #swagger.description = 'Permite a criação de um novo pedido no sistema.'
-#swagger.parameters['Authorization'] = {
+#swagger.parameters['authorization'] = {
 in: 'header',
 required: true,
 description: 'Token de autenticação (Bearer)',

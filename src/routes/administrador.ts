@@ -24,7 +24,7 @@ router.get("/pedidos", async (req, res) => {
 #swagger.tags = ['Pedidos Admin']
 #swagger.summary = 'Consulta todos os pedidos'
 #swagger.description = 'Consulta todos os pedidos registrados.'
-#swagger.parameters['Authorization'] = {
+#swagger.parameters['authorization'] = {
 in: 'header',
 required: true,
 description: 'Token de autenticação (Bearer) — apenas admins',
@@ -64,7 +64,7 @@ router.get("/pedidos/:id", async (req, res) => {
 #swagger.tags = ['Pedidos Admin']
 #swagger.summary = 'Consulta um pedido'
 #swagger.description = 'Consulta os dados de um pedido.'
-#swagger.parameters['Authorization'] = {
+#swagger.parameters['authorization'] = {
 in: 'header',
 required: true,
 description: 'Token de autenticação (Bearer) — apenas admins',
@@ -126,7 +126,7 @@ router.put("/pedidos/:id", async (req, res) => {
 #swagger.tags = ['Pedidos Admin']
 #swagger.summary = 'Atualiza o status de um pedido'
 #swagger.description = 'Atualiza o status de um pedido.'
-#swagger.parameters['Authorization'] = {
+#swagger.parameters['authorization'] = {
 in: 'header',
 required: true,
 description: 'Token de autenticação (Bearer) — apenas admins',
@@ -199,7 +199,7 @@ router.put("/pedidos/:id/enviar", async (req, res) => {
 #swagger.tags = ['Pedidos Admin']
 #swagger.summary = 'Envia um pedido'
 #swagger.description = 'Envia um pedido para o cliente.'
-#swagger.parameters['Authorization'] = {
+#swagger.parameters['authorization'] = {
 in: 'header',
 required: true,
 description: 'Token de autenticação (Bearer) — apenas admins',
@@ -271,7 +271,7 @@ router.delete("/pedidos/:id", async (req, res) => {
 #swagger.tags = ['Pedidos Admin']
 #swagger.summary = 'Exclui um pedido'
 #swagger.description = 'Exclui um pedido existente.'
-#swagger.parameters['Authorization'] = {
+#swagger.parameters['authorization'] = {
 in: 'header',
 required: true,
 description: 'Token de autenticação (Bearer) — apenas admins',
@@ -323,7 +323,7 @@ router.post("/itens-pedido", async (req, res) => {
 #swagger.tags = ['Itens de Pedido Admin']
 #swagger.summary = 'Cadastra um item de pedido'
 #swagger.description = 'Realiza o cadastro de um novo item de pedido.'
-#swagger.parameters['Authorization'] = {
+#swagger.parameters['authorization'] = {
 in: 'header',
 required: true,
 description: 'Token de autenticação (Bearer) — apenas admins',
@@ -367,7 +367,7 @@ router.put("/itens-pedido/:id", async (req, res) => {
 #swagger.tags = ['Itens de Pedido Admin']
 #swagger.summary = 'Atualiza um item de pedido'
 #swagger.description = 'Atualiza os dados de um item de pedido existente.'
-#swagger.parameters['Authorization'] = {
+#swagger.parameters['authorization'] = {
 in: 'header',
 required: true,
 description: 'Token de autenticação (Bearer) — apenas admins',
@@ -418,7 +418,7 @@ router.delete("/itens-pedido/:id", async (req, res) => {
 #swagger.tags = ['Itens de Pedido Admin']
 #swagger.summary = 'Exclui um item de pedido'
 #swagger.description = 'Exclui um item de pedido existente.'
-#swagger.parameters['Authorization'] = {
+#swagger.parameters['authorization'] = {
 in: 'header',
 required: true,
 description: 'Token de autenticação (Bearer) — apenas admins',
@@ -472,7 +472,7 @@ router.post("/livros", async (req, res) => {
 #swagger.tags = ['Livros Admin']
 #swagger.summary = 'Cadastra um livro'
 #swagger.description = 'Realiza o cadastro de um novo livro.'
-#swagger.parameters['Authorization'] = {
+#swagger.parameters['authorization'] = {
 in: 'header',
 required: true,
 description: 'Token de autenticação (Bearer) — apenas admins',
@@ -532,7 +532,7 @@ router.delete("/livros/:id", async (req, res) => {
 #swagger.tags = ['Livros Admin']
 #swagger.summary = 'Exclui um livro'
 #swagger.description = 'Realiza a exclusão de um livro existente.'
-#swagger.parameters['Authorization'] = {
+#swagger.parameters['authorization'] = {
 in: 'header',
 required: true,
 description: 'Token de autenticação (Bearer) — apenas admins',
@@ -573,7 +573,7 @@ router.put("/livros/:id", async (req, res) => {
 #swagger.tags = ['Livros Admin']
 #swagger.summary = 'Atualiza um livro'
 #swagger.description = 'Realiza a atualização de um livro existente.'
-#swagger.parameters['Authorization'] = {
+#swagger.parameters['authorization'] = {
 in: 'header',
 required: true,
 description: 'Token de autenticação (Bearer) — apenas admins',

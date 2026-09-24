@@ -42,13 +42,6 @@
           {
             "name": "authorization",
             "in": "header",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "Authorization",
-            "in": "header",
             "required": true,
             "description": "Token de autenticação (Bearer)",
             "schema": {
@@ -155,13 +148,6 @@
           {
             "name": "authorization",
             "in": "header",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "Authorization",
-            "in": "header",
             "required": true,
             "description": "Token de autenticação (Bearer)",
             "schema": {
@@ -201,13 +187,6 @@
           },
           {
             "name": "authorization",
-            "in": "header",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "Authorization",
             "in": "header",
             "required": true,
             "description": "Token de autenticação (Bearer)",
@@ -441,13 +420,6 @@
           {
             "name": "authorization",
             "in": "header",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "Authorization",
-            "in": "header",
             "required": true,
             "description": "Token de autenticação (Bearer)",
             "schema": {
@@ -476,13 +448,6 @@
         "parameters": [
           {
             "name": "authorization",
-            "in": "header",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "Authorization",
             "in": "header",
             "required": true,
             "description": "Token de autenticação (Bearer)",
@@ -529,13 +494,6 @@
           {
             "name": "authorization",
             "in": "header",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "Authorization",
-            "in": "header",
             "required": true,
             "description": "Token de autenticação (Bearer)",
             "schema": {
@@ -569,13 +527,6 @@
         "parameters": [
           {
             "name": "authorization",
-            "in": "header",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "Authorization",
             "in": "header",
             "required": true,
             "description": "Token de autenticação (Bearer) — apenas admins",
@@ -624,13 +575,6 @@
           },
           {
             "name": "authorization",
-            "in": "header",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "Authorization",
             "in": "header",
             "required": true,
             "description": "Token de autenticação (Bearer) — apenas admins",
@@ -695,13 +639,6 @@
           {
             "name": "authorization",
             "in": "header",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "Authorization",
-            "in": "header",
             "required": true,
             "description": "Token de autenticação (Bearer) — apenas admins",
             "schema": {
@@ -759,13 +696,6 @@
           {
             "name": "authorization",
             "in": "header",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "Authorization",
-            "in": "header",
             "required": true,
             "description": "Token de autenticação (Bearer) — apenas admins",
             "schema": {
@@ -822,13 +752,6 @@
           {
             "name": "authorization",
             "in": "header",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "Authorization",
-            "in": "header",
             "required": true,
             "description": "Token de autenticação (Bearer) — apenas admins",
             "schema": {
@@ -882,13 +805,6 @@
         "parameters": [
           {
             "name": "authorization",
-            "in": "header",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "Authorization",
             "in": "header",
             "required": true,
             "description": "Token de autenticação (Bearer) — apenas admins",
@@ -961,13 +877,6 @@
           {
             "name": "authorization",
             "in": "header",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "Authorization",
-            "in": "header",
             "required": true,
             "description": "Token de autenticação (Bearer) — apenas admins",
             "schema": {
@@ -1022,13 +931,6 @@
           {
             "name": "authorization",
             "in": "header",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "Authorization",
-            "in": "header",
             "required": true,
             "description": "Token de autenticação (Bearer) — apenas admins",
             "schema": {
@@ -1062,13 +964,6 @@
         "parameters": [
           {
             "name": "authorization",
-            "in": "header",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "Authorization",
             "in": "header",
             "required": true,
             "description": "Token de autenticação (Bearer) — apenas admins",
@@ -1166,13 +1061,6 @@
           {
             "name": "authorization",
             "in": "header",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "Authorization",
-            "in": "header",
             "required": true,
             "description": "Token de autenticação (Bearer) — apenas admins",
             "schema": {
@@ -1226,13 +1114,6 @@
           },
           {
             "name": "authorization",
-            "in": "header",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "Authorization",
             "in": "header",
             "required": true,
             "description": "Token de autenticação (Bearer) — apenas admins",
@@ -1325,13 +1206,6 @@
           {
             "name": "authorization",
             "in": "header",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "Authorization",
-            "in": "header",
             "required": true,
             "description": "Token de autenticação (Bearer)",
             "schema": {
@@ -1370,13 +1244,6 @@
           },
           {
             "name": "authorization",
-            "in": "header",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "Authorization",
             "in": "header",
             "required": true,
             "description": "Token de autenticação (Bearer)",
@@ -1419,13 +1286,6 @@
           },
           {
             "name": "authorization",
-            "in": "header",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "Authorization",
             "in": "header",
             "required": true,
             "description": "Token de autenticação (Bearer)",

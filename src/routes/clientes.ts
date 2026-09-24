@@ -26,7 +26,7 @@ router.get("/", authMiddleware, async (req, res) => {
 #swagger.tags = ['Clientes']
 #swagger.summary = 'Lista os clientes'
 #swagger.description = 'Retorna a lista de clientes cadastrados. Requer token de autenticação.'
-#swagger.parameters['Authorization'] = {
+#swagger.parameters['authorization'] = {
 in: 'header',
 required: true,
 description: 'Token de autenticação (Bearer)',
@@ -102,7 +102,7 @@ router.delete("/:id", authMiddleware, async (req, res) => {
 #swagger.tags = ['Clientes']
 #swagger.summary = 'Exclui um cliente'
 #swagger.description = 'Exclui um cliente existente.'
-#swagger.parameters['Authorization'] = {
+#swagger.parameters['authorization'] = {
 in: 'header',
 required: true,
 description: 'Token de autenticação (Bearer)',
@@ -149,7 +149,7 @@ router.put("/:id", authMiddleware, async (req, res) => {
 #swagger.tags = ['Clientes']
 #swagger.summary = 'Atualiza um cliente'
 #swagger.description = 'Atualiza os dados de um cliente existente.'
-#swagger.parameters['Authorization'] = {
+#swagger.parameters['authorization'] = {
 in: 'header',
 required: true,
 description: 'Token de autenticação (Bearer)',
