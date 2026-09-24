@@ -6,6 +6,24 @@ import bcrypt from 'bcrypt'
 const router = Router()
 
 router.post("/", async (req, res) => {
+  /*
+#swagger.tags = ['Login Admin']
+#swagger.summary = 'Realiza o login de um administrador'
+#swagger.description = 'Permite que um administrador faça login no sistema.'
+in: 'body',
+required: true,
+schema: {
+email: { type: 'string', format: 'email' },
+senha: { type: 'string', format: 'password' }
+}
+} 
+#swagger.responses[200] = {
+description: 'Login realizado com sucesso.'
+}
+#swagger.responses[500] = {
+description: 'Erro interno do servidor.'
+}
+*/
   const { email, senha } = req.body
 
   const mensaPadrao = "Login ou senha incorretos"

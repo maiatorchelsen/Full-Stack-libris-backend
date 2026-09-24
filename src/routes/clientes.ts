@@ -21,6 +21,33 @@ const clienteSchema = z.object({
 })
 
 router.get("/", async (req, res) => {
+  /*
+#swagger.tags = ['Clientes']
+#swagger.summary = 'Consulta um cliente'
+#swagger.description = 'Consulta os dados de um cliente.'
+#swagger.parameters['id'] = {
+in: 'path',
+required: true,
+schema: {
+type: 'string'
+}
+}
+#swagger.parameters['body'] = {
+in: 'body',
+required: true,
+schema: {
+nome: 'João da Silva',
+email: 'joao@email.com',
+senha: '123456'
+}
+}
+#swagger.responses[201] = {
+description: 'Cliente consultado com sucesso.'
+}
+#swagger.responses[400] = {
+description: 'Dados inválidos.'
+}
+*/
   try {
     const clientes = await prisma.cliente.findMany()
     res.status(200).json(clientes)
@@ -30,6 +57,26 @@ router.get("/", async (req, res) => {
 })
 
 router.post("/", async (req, res) => {
+  /*
+#swagger.tags = ['Clientes']
+#swagger.summary = 'Cadastra um cliente'
+#swagger.description = 'Realiza o cadastro de um novo cliente.'
+#swagger.parameters['body'] = {
+in: 'body',
+required: true,
+schema: {
+nome: 'João da Silva',
+email: 'joao@email.com',
+senha: '123456'
+}
+}
+#swagger.responses[201] = {
+description: 'Cliente cadastrado com sucesso.'
+}
+#swagger.responses[400] = {
+description: 'Dados inválidos.'
+}
+*/
 
   const valida = clienteSchema.safeParse(req.body)
   if (!valida.success) {
@@ -51,6 +98,33 @@ router.post("/", async (req, res) => {
 })
 
 router.delete("/:id", async (req, res) => {
+  /*
+#swagger.tags = ['Clientes']
+#swagger.summary = 'Exclui um cliente'
+#swagger.description = 'Exclui um cliente existente.'
+#swagger.parameters['id'] = {
+in: 'path',
+required: true,
+schema: {
+type: 'string'
+}
+}
+#swagger.parameters['body'] = {
+in: 'body',
+required: true,
+schema: {
+nome: 'João da Silva',
+email: 'joao@email.com',
+senha: '123456'
+}
+}
+#swagger.responses[200] = {
+description: 'Cliente excluído com sucesso.'
+}
+#swagger.responses[400] = {
+description: 'Dados inválidos.'
+}
+*/
   const { id } = req.params
 
   try {
@@ -64,6 +138,33 @@ router.delete("/:id", async (req, res) => {
 })
 
 router.put("/:id", async (req, res) => {
+  /*
+#swagger.tags = ['Clientes']
+#swagger.summary = 'Atualiza um cliente'
+#swagger.description = 'Atualiza os dados de um cliente existente.'
+#swagger.parameters['id'] = {
+in: 'path',
+required: true,
+schema: {
+type: 'string'
+}
+}
+#swagger.parameters['body'] = {
+in: 'body',
+required: true,
+schema: {
+nome: 'João da Silva',
+email: 'joao@email.com',
+senha: '123456'
+}
+}
+#swagger.responses[201] = {
+description: 'Cliente atualizado com sucesso.'
+}
+#swagger.responses[400] = {
+description: 'Dados inválidos.'
+}
+*/
   const { id } = req.params
 
   const valida = clienteSchema.safeParse(req.body)

@@ -6,6 +6,26 @@ import { authMiddleware } from '../middleware/auth'
 const router = Router()
 
 router.get("/:clienteId", authMiddleware, async (req, res) => {
+  /*
+#swagger.tags = ['Oráculo']
+#swagger.summary = 'Gera recomendações de livros para um cliente'
+#swagger.description = 'Gera recomendações de livros para um cliente com base em seu histórico de compras e preferências.'
+#swagger.parameters[0] = {
+  name: 'clienteId',
+  in: 'path',
+  description: 'ID do cliente para o qual gerar recomendações',
+  required: true,
+  schema: {
+    type: 'string'
+  }
+}
+#swagger.responses[200] = {
+description: 'Recomendações geradas com sucesso.'
+}
+#swagger.responses[500] = {
+description: 'Erro interno do servidor.'
+}
+*/
   const { clienteId } = req.params as { clienteId: string }
 
   try {

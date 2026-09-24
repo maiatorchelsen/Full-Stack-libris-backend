@@ -13,6 +13,17 @@ router.use(adminMiddleware)
 
 // Visualizar todos os pedidos
 router.get("/pedidos", async (req, res) => {
+  /*
+#swagger.tags = ['Pedidos Admin']
+#swagger.summary = 'Consulta todos os pedidos'
+#swagger.description = 'Consulta todos os pedidos registrados.'
+#swagger.responses[201] = {
+description: 'Pedidos consultados com sucesso.'
+}
+#swagger.responses[400] = {
+description: 'Dados inválidos.'
+}
+*/
   try {
     const pedidos = await prisma.pedido.findMany({
       include: {
@@ -34,6 +45,31 @@ router.get("/pedidos", async (req, res) => {
 
 // Visualizar pedido por ID
 router.get("/pedidos/:id", async (req, res) => {
+  /*
+#swagger.tags = ['Pedidos Admin']
+#swagger.summary = 'Consulta um pedido'
+#swagger.description = 'Consulta os dados de um pedido.'
+#swagger.parameters['id'] = {
+in: 'path',
+required: true,
+schema: {
+type: 'string'
+}
+}
+#swagger.parameters['body'] = {
+in: 'body',
+required: true,
+schema: {
+id: 1
+}
+}
+#swagger.responses[201] = {
+description: 'Pedido consultado com sucesso.'
+}
+#swagger.responses[400] = {
+description: 'Dados inválidos.'
+}
+*/
   const { id } = req.params
 
   try {
@@ -63,6 +99,31 @@ router.get("/pedidos/:id", async (req, res) => {
 
 // Enviar pedido para o cliente (status -> ENVIADO)
 router.put("/pedidos/:id/enviar", async (req, res) => {
+  /*
+#swagger.tags = ['Pedidos Admin']
+#swagger.summary = 'Envia um pedido'
+#swagger.description = 'Envia um pedido para o cliente.'
+#swagger.parameters['id'] = {
+in: 'path',
+required: true,
+schema: {
+type: 'string'
+}
+}
+#swagger.parameters['body'] = {
+in: 'body',
+required: true,
+schema: {
+id: 1
+}
+}
+#swagger.responses[201] = {
+description: 'Pedido enviado com sucesso.'
+}
+#swagger.responses[400] = {
+description: 'Dados inválidos.'
+}
+*/
   const { id } = req.params
 
   try {
@@ -102,6 +163,31 @@ router.put("/pedidos/:id/enviar", async (req, res) => {
 
 // Excluir pedido
 router.delete("/pedidos/:id", async (req, res) => {
+  /*
+#swagger.tags = ['Pedidos Admin']
+#swagger.summary = 'Exclui um pedido'
+#swagger.description = 'Exclui um pedido existente.'
+#swagger.parameters['id'] = {
+in: 'path',
+required: true,
+schema: {
+type: 'string'
+}
+}
+#swagger.parameters['body'] = {
+in: 'body',
+required: true,
+schema: {
+id: 1
+}
+}
+#swagger.responses[200] = {
+description: 'Pedido excluído com sucesso.'
+}
+#swagger.responses[400] = {
+description: 'Dados inválidos.'
+}
+*/
   const { id } = req.params
 
   try {
@@ -136,6 +222,34 @@ const livroSchema = z.object({
 
 // Incluir livro
 router.post("/livros", async (req, res) => {
+  /*
+#swagger.tags = ['Livros Admin']
+#swagger.summary = 'Cadastra um livro'
+#swagger.description = 'Realiza o cadastro de um novo livro.'
+#swagger.parameters['body'] = {
+in: 'body',
+required: true,
+schema: {
+titulo: 'O Senhor dos Anéis',
+isbn: '978-0-345-33968-9',
+preco: 29.99,
+autor: 'J.R.R. Tolkien',
+editora: 'HarperCollins',
+categoria: 'Fantasia',
+capa: 'https://example.com/capa.jpg',
+descricao: 'Um clássico da literatura fantástica.',
+anoPublicacao: 1954,
+estoque: 10,
+adminId: 1
+}
+}
+#swagger.responses[201] = {
+description: 'Livro cadastrado com sucesso.'
+}
+#swagger.responses[400] = {
+description: 'Dados inválidos.'
+}
+*/
   const valida = livroSchema.safeParse(req.body)
   if (!valida.success) {
     res.status(400).json({ erro: valida.error })
@@ -160,6 +274,25 @@ router.post("/livros", async (req, res) => {
 
 // Excluir livro
 router.delete("/livros/:id", async (req, res) => {
+  /*
+#swagger.tags = ['Livros Admin']
+#swagger.summary = 'Exclui um livro'
+#swagger.description = 'Realiza a exclusão de um livro existente.'
+#swagger.parameters['body'] = {
+in: 'body',
+required: true,
+schema: {
+id: 1
+}
+}
+#swagger.responses[200] = {
+description: 'Livro excluído com sucesso.'
+}
+#swagger.responses[400] = {
+description: 'Dados inválidos.'
+}
+*/
+
   const { id } = req.params
 
   try {
@@ -174,6 +307,34 @@ router.delete("/livros/:id", async (req, res) => {
 
 // Atualizar livro
 router.put("/livros/:id", async (req, res) => {
+  /*
+#swagger.tags = ['Livros Admin']
+#swagger.summary = 'Atualiza um livro'
+#swagger.description = 'Realiza a atualização de um livro existente.'
+#swagger.parameters['body'] = {
+in: 'body',
+required: true,
+schema: {
+titulo: 'O Senhor dos Anéis',
+isbn: '978-0-345-33968-9',
+preco: 29.99,
+autor: 'J.R.R. Tolkien',
+editora: 'HarperCollins',
+categoria: 'Fantasia',
+capa: 'https://example.com/capa.jpg',
+descricao: 'Um clássico da literatura fantástica.',
+anoPublicacao: 1954,
+estoque: 10,
+adminId: 1
+}
+}
+#swagger.responses[201] = {
+description: 'Livro atualizado com sucesso.'
+}
+#swagger.responses[400] = {
+description: 'Dados inválidos.'
+}
+*/
   const { id } = req.params
 
   const valida = livroSchema.safeParse(req.body)

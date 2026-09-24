@@ -33,10 +33,52 @@
     },
     "/clientes/": {
       "get": {
-        "description": "",
+        "tags": [
+          "Clientes"
+        ],
+        "summary": "Consulta um cliente",
+        "description": "Consulta os dados de um cliente.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "nome": {
+                  "type": "string",
+                  "example": "João da Silva"
+                },
+                "email": {
+                  "type": "string",
+                  "example": "joao@email.com"
+                },
+                "senha": {
+                  "type": "string",
+                  "example": "123456"
+                }
+              }
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "201": {
+            "description": "Cliente consultado com sucesso."
+          },
+          "400": {
+            "description": "Dados inválidos."
           },
           "500": {
             "description": "Internal Server Error"
@@ -44,20 +86,52 @@
         }
       },
       "post": {
-        "description": "",
+        "tags": [
+          "Clientes"
+        ],
+        "summary": "Cadastra um cliente",
+        "description": "Realiza o cadastro de um novo cliente.",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "nome": {
+                  "type": "string",
+                  "example": "João da Silva"
+                },
+                "email": {
+                  "type": "string",
+                  "example": "joao@email.com"
+                },
+                "senha": {
+                  "type": "string",
+                  "example": "123456"
+                }
+              }
+            }
+          }
+        ],
         "responses": {
           "201": {
-            "description": "Created"
+            "description": "Cliente cadastrado com sucesso."
           },
           "400": {
-            "description": "Bad Request"
+            "description": "Dados inválidos."
           }
         }
       }
     },
     "/clientes/{id}": {
       "delete": {
-        "description": "",
+        "tags": [
+          "Clientes"
+        ],
+        "summary": "Exclui um cliente",
+        "description": "Exclui um cliente existente.",
         "parameters": [
           {
             "name": "id",
@@ -66,19 +140,45 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "nome": {
+                  "type": "string",
+                  "example": "João da Silva"
+                },
+                "email": {
+                  "type": "string",
+                  "example": "joao@email.com"
+                },
+                "senha": {
+                  "type": "string",
+                  "example": "123456"
+                }
+              }
+            }
           }
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Cliente excluído com sucesso."
           },
           "400": {
-            "description": "Bad Request"
+            "description": "Dados inválidos."
           }
         }
       },
       "put": {
-        "description": "",
+        "tags": [
+          "Clientes"
+        ],
+        "summary": "Atualiza um cliente",
+        "description": "Atualiza os dados de um cliente existente.",
         "parameters": [
           {
             "name": "id",
@@ -87,151 +187,97 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "nome": {
+                  "type": "string",
+                  "example": "João da Silva"
+                },
+                "email": {
+                  "type": "string",
+                  "example": "joao@email.com"
+                },
+                "senha": {
+                  "type": "string",
+                  "example": "123456"
+                }
+              }
+            }
           }
         ],
         "responses": {
           "200": {
             "description": "OK"
           },
+          "201": {
+            "description": "Cliente atualizado com sucesso."
+          },
           "400": {
-            "description": "Bad Request"
+            "description": "Dados inválidos."
           }
         }
       }
     },
     "/livros/": {
       "get": {
-        "description": "",
+        "tags": [
+          "Livros"
+        ],
+        "summary": "Lista todos os livros",
+        "description": "Retorna uma lista com todos os livros cadastrados.",
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Lista de livros retornada com sucesso."
           },
           "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      },
-      "post": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "Created"
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
+            "description": "Erro interno do servidor."
           }
         }
       }
     },
     "/livros/{id}": {
       "get": {
-        "description": "",
+        "tags": [
+          "Livros"
+        ],
+        "summary": "Retorna um livro específico",
+        "description": "Retorna os detalhes de um livro com base no ID fornecido.",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
             "schema": {
-              "type": "string"
+              "type": "integer"
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Livro retornado com sucesso."
+          },
+          "404": {
+            "description": "Livro não encontrado."
           },
           "500": {
             "description": "Internal Server Error"
-          }
-        }
-      },
-      "delete": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "authorization",
-            "in": "header",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          }
-        }
-      },
-      "put": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "authorization",
-            "in": "header",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
           }
         }
       }
     },
     "/livros/pesquisa/{termo}": {
       "get": {
-        "description": "",
+        "tags": [
+          "Livros - Pesquisa"
+        ],
+        "summary": "Retorna um livro específico por termo de pesquisa",
+        "description": "Retorna os detalhes de um livro com base no termo de pesquisa fornecido.",
         "parameters": [
           {
             "name": "termo",
@@ -244,7 +290,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Lista de livros encontrada com sucesso."
           },
           "500": {
             "description": "Internal Server Error"
@@ -254,13 +300,20 @@
     },
     "/login/": {
       "post": {
-        "description": "",
+        "tags": [
+          "Login"
+        ],
+        "summary": "Realiza o login de um cliente",
+        "description": "Permite que um cliente faça login no sistema.",
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Login realizado com sucesso."
           },
           "400": {
             "description": "Bad Request"
+          },
+          "500": {
+            "description": "Erro interno do servidor."
           }
         },
         "requestBody": {
@@ -284,13 +337,20 @@
     },
     "/admin/login/": {
       "post": {
-        "description": "",
+        "tags": [
+          "Login Admin"
+        ],
+        "summary": "Realiza o login de um administrador",
+        "description": "Permite que um administrador faça login no sistema.",
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Login realizado com sucesso."
           },
           "400": {
             "description": "Bad Request"
+          },
+          "500": {
+            "description": "Erro interno do servidor."
           }
         },
         "requestBody": {
@@ -314,18 +374,11 @@
     },
     "/pedidos/": {
       "get": {
-        "description": "",
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      },
-      "post": {
-        "description": "",
+        "tags": [
+          "Pedidos"
+        ],
+        "summary": "Lista os pedidos do cliente autenticado",
+        "description": "Retorna apenas os pedidos do cliente autenticado.",
         "parameters": [
           {
             "name": "authorization",
@@ -336,6 +389,36 @@
           }
         ],
         "responses": {
+          "200": {
+            "description": "Lista de pedidos retornada com sucesso."
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Erro interno do servidor."
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Pedidos"
+        ],
+        "summary": "Cria um novo pedido",
+        "description": "Permite a criação de um novo pedido no sistema.",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Pedido criado com sucesso."
+          },
           "201": {
             "description": "Created"
           },
@@ -344,13 +427,20 @@
           },
           "401": {
             "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Erro interno do servidor."
           }
         }
       }
     },
     "/pedidos/{id}": {
       "get": {
-        "description": "",
+        "tags": [
+          "Pedidos"
+        ],
+        "summary": "Obtém um pedido pelo ID",
+        "description": "Retorna os detalhes de um pedido específico com base no ID fornecido.",
         "parameters": [
           {
             "name": "id",
@@ -359,106 +449,38 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Pedido retornado com sucesso."
+          },
+          "401": {
+            "description": "Unauthorized"
           },
           "404": {
-            "description": "Not Found"
+            "description": "Pedido não encontrado."
           },
           "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      },
-      "put": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "authorization",
-            "in": "header",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          }
-        },
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "status": {
-                    "example": "any"
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "delete": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "authorization",
-            "in": "header",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
+            "description": "Erro interno do servidor."
           }
         }
       }
     },
     "/administrador/pedidos": {
       "get": {
-        "description": "",
+        "tags": [
+          "Pedidos Admin"
+        ],
+        "summary": "Consulta todos os pedidos",
+        "description": "Consulta todos os pedidos registrados.",
         "parameters": [
           {
             "name": "authorization",
@@ -471,6 +493,12 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "201": {
+            "description": "Pedidos consultados com sucesso."
+          },
+          "400": {
+            "description": "Dados inválidos."
           },
           "401": {
             "description": "Unauthorized"
@@ -486,7 +514,11 @@
     },
     "/administrador/pedidos/{id}": {
       "get": {
-        "description": "",
+        "tags": [
+          "Pedidos Admin"
+        ],
+        "summary": "Consulta um pedido",
+        "description": "Consulta os dados de um pedido.",
         "parameters": [
           {
             "name": "id",
@@ -502,11 +534,31 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number",
+                  "example": 1
+                }
+              }
+            }
           }
         ],
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "201": {
+            "description": "Pedido consultado com sucesso."
+          },
+          "400": {
+            "description": "Dados inválidos."
           },
           "401": {
             "description": "Unauthorized"
@@ -523,7 +575,11 @@
         }
       },
       "delete": {
-        "description": "",
+        "tags": [
+          "Pedidos Admin"
+        ],
+        "summary": "Exclui um pedido",
+        "description": "Exclui um pedido existente.",
         "parameters": [
           {
             "name": "id",
@@ -539,14 +595,28 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number",
+                  "example": 1
+                }
+              }
+            }
           }
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Pedido excluído com sucesso."
           },
           "400": {
-            "description": "Bad Request"
+            "description": "Dados inválidos."
           },
           "401": {
             "description": "Unauthorized"
@@ -559,7 +629,11 @@
     },
     "/administrador/pedidos/{id}/enviar": {
       "put": {
-        "description": "",
+        "tags": [
+          "Pedidos Admin"
+        ],
+        "summary": "Envia um pedido",
+        "description": "Envia um pedido para o cliente.",
         "parameters": [
           {
             "name": "id",
@@ -575,14 +649,31 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number",
+                  "example": 1
+                }
+              }
+            }
           }
         ],
         "responses": {
           "200": {
             "description": "OK"
           },
+          "201": {
+            "description": "Pedido enviado com sucesso."
+          },
           "400": {
-            "description": "Bad Request"
+            "description": "Dados inválidos."
           },
           "401": {
             "description": "Unauthorized"
@@ -598,7 +689,11 @@
     },
     "/administrador/livros": {
       "post": {
-        "description": "",
+        "tags": [
+          "Livros Admin"
+        ],
+        "summary": "Cadastra um livro",
+        "description": "Realiza o cadastro de um novo livro.",
         "parameters": [
           {
             "name": "authorization",
@@ -606,14 +701,68 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "titulo": {
+                  "type": "string",
+                  "example": "O Senhor dos Anéis"
+                },
+                "isbn": {
+                  "type": "string",
+                  "example": "978-0-345-33968-9"
+                },
+                "preco": {
+                  "type": "number",
+                  "example": 29.99
+                },
+                "autor": {
+                  "type": "string",
+                  "example": "J.R.R. Tolkien"
+                },
+                "editora": {
+                  "type": "string",
+                  "example": "HarperCollins"
+                },
+                "categoria": {
+                  "type": "string",
+                  "example": "Fantasia"
+                },
+                "capa": {
+                  "type": "string",
+                  "example": "https://example.com/capa.jpg"
+                },
+                "descricao": {
+                  "type": "string",
+                  "example": "Um clássico da literatura fantástica."
+                },
+                "anoPublicacao": {
+                  "type": "number",
+                  "example": 1954
+                },
+                "estoque": {
+                  "type": "number",
+                  "example": 10
+                },
+                "adminId": {
+                  "type": "number",
+                  "example": 1
+                }
+              }
+            }
           }
         ],
         "responses": {
           "201": {
-            "description": "Created"
+            "description": "Livro cadastrado com sucesso."
           },
           "400": {
-            "description": "Bad Request"
+            "description": "Dados inválidos."
           },
           "401": {
             "description": "Unauthorized"
@@ -626,7 +775,11 @@
     },
     "/administrador/livros/{id}": {
       "delete": {
-        "description": "",
+        "tags": [
+          "Livros Admin"
+        ],
+        "summary": "Exclui um livro",
+        "description": "Realiza a exclusão de um livro existente.",
         "parameters": [
           {
             "name": "id",
@@ -642,14 +795,28 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number",
+                  "example": 1
+                }
+              }
+            }
           }
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Livro excluído com sucesso."
           },
           "400": {
-            "description": "Bad Request"
+            "description": "Dados inválidos."
           },
           "401": {
             "description": "Unauthorized"
@@ -660,7 +827,11 @@
         }
       },
       "put": {
-        "description": "",
+        "tags": [
+          "Livros Admin"
+        ],
+        "summary": "Atualiza um livro",
+        "description": "Realiza a atualização de um livro existente.",
         "parameters": [
           {
             "name": "id",
@@ -676,14 +847,71 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "titulo": {
+                  "type": "string",
+                  "example": "O Senhor dos Anéis"
+                },
+                "isbn": {
+                  "type": "string",
+                  "example": "978-0-345-33968-9"
+                },
+                "preco": {
+                  "type": "number",
+                  "example": 29.99
+                },
+                "autor": {
+                  "type": "string",
+                  "example": "J.R.R. Tolkien"
+                },
+                "editora": {
+                  "type": "string",
+                  "example": "HarperCollins"
+                },
+                "categoria": {
+                  "type": "string",
+                  "example": "Fantasia"
+                },
+                "capa": {
+                  "type": "string",
+                  "example": "https://example.com/capa.jpg"
+                },
+                "descricao": {
+                  "type": "string",
+                  "example": "Um clássico da literatura fantástica."
+                },
+                "anoPublicacao": {
+                  "type": "number",
+                  "example": 1954
+                },
+                "estoque": {
+                  "type": "number",
+                  "example": 10
+                },
+                "adminId": {
+                  "type": "number",
+                  "example": 1
+                }
+              }
+            }
           }
         ],
         "responses": {
           "200": {
             "description": "OK"
           },
+          "201": {
+            "description": "Livro atualizado com sucesso."
+          },
           "400": {
-            "description": "Bad Request"
+            "description": "Dados inválidos."
           },
           "401": {
             "description": "Unauthorized"
@@ -696,7 +924,11 @@
     },
     "/itens-pedido/": {
       "get": {
-        "description": "",
+        "tags": [
+          "Itens de Pedido"
+        ],
+        "summary": "Lista todos os itens de pedido",
+        "description": "Retorna uma lista com todos os itens de pedido cadastrados.",
         "parameters": [
           {
             "name": "authorization",
@@ -708,13 +940,13 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Itens de pedido listados com sucesso."
           },
           "401": {
             "description": "Unauthorized"
           },
           "500": {
-            "description": "Internal Server Error"
+            "description": "Erro interno do servidor."
           }
         }
       },
@@ -747,14 +979,18 @@
     },
     "/itens-pedido/{id}": {
       "get": {
-        "description": "",
+        "tags": [
+          "Itens de Pedido"
+        ],
+        "summary": "Retorna um item de pedido específico",
+        "description": "Retorna os detalhes de um item de pedido com base no ID fornecido.",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
             "schema": {
-              "type": "string"
+              "type": "integer"
             }
           },
           {
@@ -767,16 +1003,16 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Item de pedido retornado com sucesso."
           },
           "401": {
             "description": "Unauthorized"
           },
           "404": {
-            "description": "Not Found"
+            "description": "Item de pedido não encontrado."
           },
           "500": {
-            "description": "Internal Server Error"
+            "description": "Erro interno do servidor."
           }
         }
       },
@@ -815,14 +1051,18 @@
         }
       },
       "delete": {
-        "description": "",
+        "tags": [
+          "Itens de Pedido"
+        ],
+        "summary": "Exclui um item de pedido",
+        "description": "Exclui um item de pedido com base no ID fornecido.",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
             "schema": {
-              "type": "string"
+              "type": "integer"
             }
           },
           {
@@ -835,10 +1075,10 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Item de pedido excluído com sucesso."
           },
           "400": {
-            "description": "Bad Request"
+            "description": "Não foi possível excluir o item de pedido."
           },
           "401": {
             "description": "Unauthorized"
@@ -851,7 +1091,11 @@
     },
     "/oraculo/{clienteId}": {
       "get": {
-        "description": "",
+        "tags": [
+          "Oráculo"
+        ],
+        "summary": "Gera recomendações de livros para um cliente",
+        "description": "Gera recomendações de livros para um cliente com base em seu histórico de compras e preferências.",
         "parameters": [
           {
             "name": "clienteId",
@@ -871,7 +1115,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Recomendações geradas com sucesso."
           },
           "401": {
             "description": "Unauthorized"
@@ -880,7 +1124,7 @@
             "description": "Not Found"
           },
           "500": {
-            "description": "Internal Server Error"
+            "description": "Erro interno do servidor."
           }
         }
       }

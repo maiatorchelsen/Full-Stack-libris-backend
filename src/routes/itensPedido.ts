@@ -14,6 +14,17 @@ const itemPedidoSchema = z.object({
 })
 
 router.get("/", authMiddleware, async (req, res) => {
+   /*
+#swagger.tags = ['Itens de Pedido']
+#swagger.summary = 'Lista todos os itens de pedido'
+#swagger.description = 'Retorna uma lista com todos os itens de pedido cadastrados.'
+#swagger.responses[200] = {
+description: 'Itens de pedido listados com sucesso.'
+}
+#swagger.responses[500] = {
+description: 'Erro interno do servidor.'
+}
+*/
   try {
     const itens = await prisma.itemPedido.findMany({
       where: {
@@ -31,6 +42,27 @@ router.get("/", authMiddleware, async (req, res) => {
 })
 
 router.get("/:id", authMiddleware, async (req, res) => {
+   /*
+#swagger.tags = ['Itens de Pedido']
+#swagger.summary = 'Retorna um item de pedido específico'
+#swagger.description = 'Retorna os detalhes de um item de pedido com base no ID fornecido.'
+#swagger.parameters['id'] = {
+in: 'path',
+required: true,
+schema: {
+type: 'integer'
+}
+}
+#swagger.responses[200] = {
+description: 'Item de pedido retornado com sucesso.'
+}
+#swagger.responses[404] = {
+description: 'Item de pedido não encontrado.'
+}
+#swagger.responses[500] = {
+description: 'Erro interno do servidor.'
+}
+*/
   const { id } = req.params
 
   try {
@@ -97,6 +129,24 @@ router.put("/:id", adminMiddleware, async (req, res) => {
 })
 
 router.delete("/:id", adminMiddleware, async (req, res) => {
+   /*
+#swagger.tags = ['Itens de Pedido']
+#swagger.summary = 'Exclui um item de pedido'
+#swagger.description = 'Exclui um item de pedido com base no ID fornecido.'
+#swagger.parameters['id'] = {
+in: 'path',
+required: true,
+schema: {
+type: 'integer'
+}
+}
+#swagger.responses[200] = {
+description: 'Item de pedido excluído com sucesso.'
+}
+#swagger.responses[400] = {
+description: 'Não foi possível excluir o item de pedido.'
+}
+*/
   const { id } = req.params
 
   try {

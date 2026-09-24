@@ -2,7 +2,7 @@ import { prisma } from "../../lib/prisma"
 
 import { Router } from 'express'
 import { z } from 'zod'
-import { authMiddleware, adminMiddleware } from '../middleware/auth'
+import { authMiddleware } from '../middleware/auth'
 
 const router = Router()
 
@@ -20,9 +20,21 @@ const pedidoSchema = z.object({
   itens: z.array(itemPedidoSchema).min(1, { message: "Pedido deve ter pelo menos 1 item" }),
 })
 
-router.get("/", async (req, res) => {
+router.get("/", authMiddleware, async (req, res) => {
+  /*
+#swagger.tags = ['Pedidos']
+#swagger.summary = 'Lista os pedidos do cliente autenticado'
+#swagger.description = 'Retorna apenas os pedidos do cliente autenticado.'
+#swagger.responses[200] = {
+description: 'Lista de pedidos retornada com sucesso.'
+}
+#swagger.responses[500] = {
+description: 'Erro interno do servidor.'
+}
+*/
   try {
     const pedidos = await prisma.pedido.findMany({
+      where: { clienteId: req.clienteLogadoId },
       include: {
         cliente: { select: { id: true, nome: true, email: true } },
         admin: { select: { id: true, nome: true, email: true } },
@@ -40,12 +52,31 @@ router.get("/", async (req, res) => {
   }
 })
 
-router.get("/:id", async (req, res) => {
+router.get("/:id", authMiddleware, async (req, res) => {
+  /*
+#swagger.tags = ['Pedidos']
+#swagger.summary = 'Obtém um pedido pelo ID'
+#swagger.description = 'Retorna os detalhes de um pedido específico com base no ID fornecido.'
+in: 'path',
+required: true,
+schema: {
+type: 'string'
+}
+#swagger.responses[200] = {
+description: 'Pedido retornado com sucesso.'
+}
+#swagger.responses[404] = {
+description: 'Pedido não encontrado.'
+}
+#swagger.responses[500] = {
+description: 'Erro interno do servidor.'
+}
+*/
   const { id } = req.params
 
   try {
     const pedido = await prisma.pedido.findFirst({
-      where: { id: Number(id) },
+      where: { id: Number(id), clienteId: req.clienteLogadoId },
       include: {
         cliente: { select: { id: true, nome: true, email: true } },
         admin: { select: { id: true, nome: true, email: true } },
@@ -69,6 +100,29 @@ router.get("/:id", async (req, res) => {
 })
 
 router.post("/", authMiddleware, async (req, res) => {
+    /*
+#swagger.tags = ['Pedidos']
+#swagger.summary = 'Cria um novo pedido'
+#swagger.description = 'Permite a criação de um novo pedido no sistema.'
+in: 'body',
+required: true,
+schema: {
+clienteId: 'string',
+adminId: 1,
+itens: [
+{
+livroId: 1,
+quantidade: 2
+}
+]
+}
+#swagger.responses[200] = {
+description: 'Pedido criado com sucesso.'
+}
+#swagger.responses[500] = {
+description: 'Erro interno do servidor.'
+}
+*/
   const valida = pedidoSchema.safeParse(req.body)
   if (!valida.success) {
     res.status(400).json({ erro: valida.error })
@@ -137,49 +191,6 @@ router.post("/", authMiddleware, async (req, res) => {
     res.status(201).json(pedido)
   } catch (error: any) {
     res.status(400).json({ erro: error.message || "Erro ao criar pedido" })
-  }
-})
-
-router.put("/:id", adminMiddleware, async (req, res) => {
-  const { id } = req.params
-  const { status } = req.body
-
-  const statusValidos = ["PENDENTE", "PROCESSANDO", "ENVIADO", "ENTREGUE", "CANCELADO"]
-  if (!status || !statusValidos.includes(status)) {
-    res.status(400).json({ erro: `Status inválido. Valores aceitos: ${statusValidos.join(", ")}` })
-    return
-  }
-
-  try {
-    const pedido = await prisma.pedido.update({
-      where: { id: Number(id) },
-      data: { status },
-      include: {
-        cliente: { select: { id: true, nome: true, email: true } },
-        itens: true,
-      },
-    })
-    res.status(200).json(pedido)
-  } catch (error) {
-    res.status(400).json({ erro: error })
-  }
-})
-
-router.delete("/:id", adminMiddleware, async (req, res) => {
-  const { id } = req.params
-
-  try {
-    // Deleta os itens primeiro
-    await prisma.itemPedido.deleteMany({
-      where: { pedidoId: Number(id) },
-    })
-
-    const pedido = await prisma.pedido.delete({
-      where: { id: Number(id) },
-    })
-    res.status(200).json(pedido)
-  } catch (error) {
-    res.status(400).json({ erro: error })
   }
 })
 
