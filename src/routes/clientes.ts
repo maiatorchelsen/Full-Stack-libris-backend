@@ -24,29 +24,21 @@ const clienteSchema = z.object({
 router.get("/", authMiddleware, async (req, res) => {
   /*
 #swagger.tags = ['Clientes']
-#swagger.summary = 'Consulta um cliente'
-#swagger.description = 'Consulta os dados de um cliente.'
-#swagger.parameters['id'] = {
-in: 'path',
+#swagger.summary = 'Lista os clientes'
+#swagger.description = 'Retorna a lista de clientes cadastrados. Requer token de autenticação.'
+#swagger.parameters['Authorization'] = {
+in: 'header',
 required: true,
+description: 'Token de autenticação (Bearer)',
 schema: {
 type: 'string'
 }
 }
-#swagger.parameters['body'] = {
-in: 'body',
-required: true,
-schema: {
-nome: 'João da Silva',
-email: 'joao@email.com',
-senha: '123456'
+#swagger.responses[200] = {
+description: 'Lista de clientes retornada com sucesso.'
 }
-}
-#swagger.responses[201] = {
-description: 'Cliente consultado com sucesso.'
-}
-#swagger.responses[400] = {
-description: 'Dados inválidos.'
+#swagger.responses[401] = {
+description: 'Token não fornecido ou inválido.'
 }
 */
   try {
@@ -110,6 +102,14 @@ router.delete("/:id", authMiddleware, async (req, res) => {
 #swagger.tags = ['Clientes']
 #swagger.summary = 'Exclui um cliente'
 #swagger.description = 'Exclui um cliente existente.'
+#swagger.parameters['Authorization'] = {
+in: 'header',
+required: true,
+description: 'Token de autenticação (Bearer)',
+schema: {
+type: 'string'
+}
+}
 #swagger.parameters['id'] = {
 in: 'path',
 required: true,
@@ -117,20 +117,14 @@ schema: {
 type: 'string'
 }
 }
-#swagger.parameters['body'] = {
-in: 'body',
-required: true,
-schema: {
-nome: 'João da Silva',
-email: 'joao@email.com',
-senha: '123456'
-}
-}
 #swagger.responses[200] = {
 description: 'Cliente excluído com sucesso.'
 }
-#swagger.responses[400] = {
-description: 'Dados inválidos.'
+#swagger.responses[401] = {
+description: 'Token não fornecido ou inválido.'
+}
+#swagger.responses[403] = {
+description: 'Acesso negado. Só o próprio cliente pode excluir.'
 }
 */
   const { id } = req.params
@@ -155,6 +149,14 @@ router.put("/:id", authMiddleware, async (req, res) => {
 #swagger.tags = ['Clientes']
 #swagger.summary = 'Atualiza um cliente'
 #swagger.description = 'Atualiza os dados de um cliente existente.'
+#swagger.parameters['Authorization'] = {
+in: 'header',
+required: true,
+description: 'Token de autenticação (Bearer)',
+schema: {
+type: 'string'
+}
+}
 #swagger.parameters['id'] = {
 in: 'path',
 required: true,
@@ -178,11 +180,17 @@ cep: '12345-678',
 favoritos: 'Livro1, Livro2' 
 }
 }
-#swagger.responses[201] = {
+#swagger.responses[200] = {
 description: 'Cliente atualizado com sucesso.'
 }
 #swagger.responses[400] = {
 description: 'Dados inválidos.'
+}
+#swagger.responses[401] = {
+description: 'Token não fornecido ou inválido.'
+}
+#swagger.responses[403] = {
+description: 'Acesso negado. Só o próprio cliente pode atualizar.'
 }
 */
   const { id } = req.params

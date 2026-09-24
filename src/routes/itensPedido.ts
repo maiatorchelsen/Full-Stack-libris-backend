@@ -10,8 +10,19 @@ router.get("/", authMiddleware, async (req, res) => {
 #swagger.tags = ['Itens de Pedido']
 #swagger.summary = 'Lista todos os itens de pedido'
 #swagger.description = 'Retorna uma lista com todos os itens de pedido cadastrados.'
+#swagger.parameters['Authorization'] = {
+in: 'header',
+required: true,
+description: 'Token de autenticação (Bearer)',
+schema: {
+type: 'string'
+}
+}
 #swagger.responses[200] = {
 description: 'Itens de pedido listados com sucesso.'
+}
+#swagger.responses[401] = {
+description: 'Token não fornecido ou inválido.'
 }
 #swagger.responses[500] = {
 description: 'Erro interno do servidor.'
@@ -38,6 +49,14 @@ router.get("/:id", authMiddleware, async (req, res) => {
 #swagger.tags = ['Itens de Pedido']
 #swagger.summary = 'Retorna um item de pedido específico'
 #swagger.description = 'Retorna os detalhes de um item de pedido com base no ID fornecido.'
+#swagger.parameters['Authorization'] = {
+in: 'header',
+required: true,
+description: 'Token de autenticação (Bearer)',
+schema: {
+type: 'string'
+}
+}
 #swagger.parameters['id'] = {
 in: 'path',
 required: true,
@@ -47,6 +66,9 @@ type: 'integer'
 }
 #swagger.responses[200] = {
 description: 'Item de pedido retornado com sucesso.'
+}
+#swagger.responses[401] = {
+description: 'Token não fornecido ou inválido.'
 }
 #swagger.responses[404] = {
 description: 'Item de pedido não encontrado.'

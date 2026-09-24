@@ -10,6 +10,14 @@ router.get("/:clienteId", authMiddleware, async (req, res) => {
 #swagger.tags = ['Oráculo']
 #swagger.summary = 'Gera recomendações de livros para um cliente'
 #swagger.description = 'Gera recomendações de livros para um cliente com base em seu histórico de compras e preferências.'
+#swagger.parameters['Authorization'] = {
+in: 'header',
+required: true,
+description: 'Token de autenticação (Bearer)',
+schema: {
+type: 'string'
+}
+}
 #swagger.parameters[0] = {
   name: 'clienteId',
   in: 'path',
@@ -21,6 +29,9 @@ router.get("/:clienteId", authMiddleware, async (req, res) => {
 }
 #swagger.responses[200] = {
 description: 'Recomendações geradas com sucesso.'
+}
+#swagger.responses[401] = {
+description: 'Token não fornecido ou inválido.'
 }
 #swagger.responses[500] = {
 description: 'Erro interno do servidor.'
