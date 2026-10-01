@@ -10,6 +10,7 @@ import routesAdminLogin from './routes/adminLogin'
 import routesPedidos from './routes/pedidos'
 import routesAdministrador from './routes/administrador'
 import routesItensPedido from './routes/itensPedido'
+import routesAvaliacoes from './routes/avaliacoes'
 import routesOraculo from './routes/oraculo'
 
 const app = express()
@@ -35,6 +36,7 @@ app.use("/admin/login", routesAdminLogin)
 app.use("/pedidos", routesPedidos)
 app.use("/administrador", routesAdministrador)
 app.use("/itens-pedido", routesItensPedido)
+app.use("/avaliacoes", routesAvaliacoes)
 app.use("/oraculo", routesOraculo)
 
 app.get('/', (req, res) => {

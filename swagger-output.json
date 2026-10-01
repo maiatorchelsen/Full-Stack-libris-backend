@@ -1161,6 +1161,178 @@
         }
       }
     },
+    "/administrador/avaliacoes": {
+      "get": {
+        "tags": [
+          "Avaliações Admin"
+        ],
+        "summary": "Consulta todas as avaliações",
+        "description": "Consulta todas as avaliações registradas, com filtros opcionais por livro, cliente, nota ou trecho do comentário.",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "description": "Token de autenticação (Bearer) — apenas admins",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "livroId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "clienteId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "nota",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "comentario",
+            "in": "query",
+            "required": false,
+            "description": "Filtra por trecho do comentário (não diferencia maiúsculas de minúsculas)",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Avaliações consultadas com sucesso."
+          },
+          "401": {
+            "description": "Token não fornecido ou inválido."
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Erro interno do servidor."
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/administrador/avaliacoes/livro/{livroId}": {
+      "get": {
+        "tags": [
+          "Avaliações Admin"
+        ],
+        "summary": "Consulta as avaliações de um livro",
+        "description": "Retorna as avaliações de um livro específico, com o nome e o e-mail do cliente, a nota média e o total de avaliações.",
+        "parameters": [
+          {
+            "name": "livroId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "description": "Token de autenticação (Bearer) — apenas admins",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Avaliações do livro consultadas com sucesso."
+          },
+          "401": {
+            "description": "Token não fornecido ou inválido."
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Livro não encontrado."
+          },
+          "500": {
+            "description": "Erro interno do servidor."
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/administrador/avaliacoes/cliente/{clienteId}": {
+      "get": {
+        "tags": [
+          "Avaliações Admin"
+        ],
+        "summary": "Consulta as avaliações de um cliente",
+        "description": "Retorna todas as avaliações feitas por um cliente, com os dados do livro e do pedido avaliado.",
+        "parameters": [
+          {
+            "name": "clienteId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "description": "Token de autenticação (Bearer) — apenas admins",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Avaliações do cliente consultadas com sucesso."
+          },
+          "401": {
+            "description": "Token não fornecido ou inválido."
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Cliente não encontrado."
+          },
+          "500": {
+            "description": "Erro interno do servidor."
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
     "/itens-pedido/": {
       "get": {
         "tags": [
@@ -1242,6 +1414,281 @@
             "bearerAuth": []
           }
         ]
+      }
+    },
+    "/avaliacoes/": {
+      "post": {
+        "tags": [
+          "Avaliações"
+        ],
+        "summary": "Cria uma avaliação de um livro comprado",
+        "description": "O cliente só pode avaliar um item de um pedido que seja dele e cujo status esteja como ENTREGUE. Cada item comprado pode ser avaliado apenas uma vez.",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "description": "Token de autenticação (Bearer)",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Avaliação criada com sucesso."
+          },
+          "400": {
+            "description": "Dados inválidos ou pedido ainda não entregue."
+          },
+          "401": {
+            "description": "Token não fornecido ou inválido."
+          },
+          "403": {
+            "description": "Somente clientes autenticados podem avaliar."
+          },
+          "404": {
+            "description": "Item do pedido não encontrado para este cliente."
+          },
+          "409": {
+            "description": "Este item já foi avaliado."
+          },
+          "500": {
+            "description": "Erro interno do servidor."
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "itemPedidoId",
+                  "nota"
+                ],
+                "properties": {
+                  "itemPedidoId": {
+                    "type": "integer",
+                    "example": 1
+                  },
+                  "nota": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 5,
+                    "example": 5
+                  },
+                  "comentario": {
+                    "type": "string",
+                    "nullable": true,
+                    "example": "Excelente leitura!"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/avaliacoes/{id}": {
+      "put": {
+        "tags": [
+          "Avaliações"
+        ],
+        "summary": "Atualiza a avaliação do cliente",
+        "description": "Permite editar a nota e o comentário de uma avaliação que pertence ao cliente autenticado.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "description": "Token de autenticação (Bearer)",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Avaliação atualizada com sucesso."
+          },
+          "400": {
+            "description": "Dados inválidos."
+          },
+          "401": {
+            "description": "Token não fornecido ou inválido."
+          },
+          "403": {
+            "description": "Somente clientes autenticados podem avaliar."
+          },
+          "404": {
+            "description": "Avaliação não encontrada para este cliente."
+          },
+          "500": {
+            "description": "Erro interno do servidor."
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "nota"
+                ],
+                "properties": {
+                  "nota": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 5,
+                    "example": 4
+                  },
+                  "comentario": {
+                    "type": "string",
+                    "nullable": true,
+                    "example": "Bom, mas o final é lento."
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Avaliações"
+        ],
+        "summary": "Exclui a avaliação do cliente",
+        "description": "Remove uma avaliação que pertence ao cliente autenticado.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "description": "Token de autenticação (Bearer)",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Avaliação excluída com sucesso."
+          },
+          "401": {
+            "description": "Token não fornecido ou inválido."
+          },
+          "403": {
+            "description": "Somente clientes autenticados podem avaliar."
+          },
+          "404": {
+            "description": "Avaliação não encontrada para este cliente."
+          },
+          "500": {
+            "description": "Erro interno do servidor."
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/avaliacoes/minhas": {
+      "get": {
+        "tags": [
+          "Avaliações"
+        ],
+        "summary": "Lista as avaliações do cliente autenticado",
+        "description": "Retorna todas as avaliações feitas pelo cliente, com os dados do livro e do pedido.",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "description": "Token de autenticação (Bearer)",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Avaliações listadas com sucesso."
+          },
+          "401": {
+            "description": "Token não fornecido ou inválido."
+          },
+          "403": {
+            "description": "Somente clientes autenticados."
+          },
+          "500": {
+            "description": "Erro interno do servidor."
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/avaliacoes/livro/{livroId}": {
+      "get": {
+        "tags": [
+          "Avaliações"
+        ],
+        "summary": "Lista as avaliações de um livro",
+        "description": "Retorna as avaliações públicas de um livro, com o nome do cliente, a nota média e o total de avaliações.",
+        "parameters": [
+          {
+            "name": "livroId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Avaliações do livro retornadas com sucesso."
+          },
+          "404": {
+            "description": "Livro não encontrado."
+          },
+          "500": {
+            "description": "Erro interno do servidor."
+          }
+        }
       }
     },
     "/oraculo/{clienteId}": {

@@ -4,6 +4,17 @@ import { Router } from 'express'
 
 const router = Router()
 
+function comMedia<T extends { avaliacoes: { nota: number }[] }>(entidade: T) {
+  const totalAvaliacoes = entidade.avaliacoes.length
+  const soma = entidade.avaliacoes.reduce((acc, a) => acc + a.nota, 0)
+
+  return {
+    ...entidade,
+    notaMedia: totalAvaliacoes > 0 ? Math.round((soma / totalAvaliacoes) * 10) / 10 : null,
+    totalAvaliacoes,
+  }
+}
+
 router.get("/", async (req, res) => {
   /*
 #swagger.tags = ['Livros']
@@ -22,7 +33,7 @@ description: 'Erro interno do servidor.'
         avaliacoes: true,
       }
     })
-    res.status(200).json(livros)
+    res.status(200).json(livros.map(comMedia))
   } catch (error) {
     res.status(500).json({ erro: error })
   }
@@ -62,7 +73,7 @@ description: 'Livro não encontrado.'
       return
     }
 
-    res.status(200).json(livro)
+    res.status(200).json(comMedia(livro))
   } catch (error) {
     res.status(500).json({ erro: error })
   }

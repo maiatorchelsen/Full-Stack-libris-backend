@@ -6,6 +6,9 @@
   "scripts": {
     "dev": "npx tsx watch src/server.ts",
     "postinstall": "npx prisma generate",
+    "migrate:deploy": "npx prisma migrate deploy",
+    "migrate:status": "npx prisma migrate status",
+    "typecheck": "npx tsc --noEmit",
     "swagger": "npx tsx swagger.ts",
     "start": "npx tsx src/server.ts"
   },

@@ -41,9 +41,23 @@ description: 'Erro interno do servidor.'
       include: {
         pedido: { select: { id: true, dataPedido: true, status: true, valorTotal: true } },
         livro: { select: { id: true, titulo: true, capa: true, autor: true } },
+        avaliacoes: {
+          where: { clienteId: req.clienteLogadoId },
+          select: { id: true, nota: true, comentario: true },
+        },
       },
     })
-    res.status(200).json(itens)
+
+    const resposta = itens.map(({ avaliacoes, ...item }) => {
+      const minhaAvaliacao = avaliacoes[0] ?? null
+      return {
+        ...item,
+        podeAvaliar: item.pedido.status === "ENTREGUE" && !minhaAvaliacao,
+        minhaAvaliacao,
+      }
+    })
+
+    res.status(200).json(resposta)
   } catch (error) {
     res.status(500).json({ erro: error })
   }
@@ -98,6 +112,10 @@ description: 'Erro interno do servidor.'
       include: {
         pedido: { select: { id: true, dataPedido: true, status: true, valorTotal: true } },
         livro: { select: { id: true, titulo: true, capa: true, autor: true, preco: true } },
+        avaliacoes: {
+          where: { clienteId: req.clienteLogadoId },
+          select: { id: true, nota: true, comentario: true },
+        },
       },
     })
 
@@ -106,7 +124,14 @@ description: 'Erro interno do servidor.'
       return
     }
 
-    res.status(200).json(item)
+    const { avaliacoes, ...resto } = item
+    const minhaAvaliacao = avaliacoes[0] ?? null
+
+    res.status(200).json({
+      ...resto,
+      podeAvaliar: item.pedido.status === "ENTREGUE" && !minhaAvaliacao,
+      minhaAvaliacao,
+    })
   } catch (error) {
     res.status(500).json({ erro: error })
   }

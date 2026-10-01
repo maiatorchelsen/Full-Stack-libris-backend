@@ -108,6 +108,10 @@ description: 'Dados inválidos.'
         itens: {
           include: {
             livro: { select: { id: true, titulo: true, capa: true, preco: true, autor: true } },
+            avaliacoes: {
+              include: { cliente: { select: { id: true, nome: true, email: true } } },
+              orderBy: { criadoEm: "desc" },
+            },
           }
         },
       },
@@ -648,6 +652,240 @@ description: 'Dados inválidos.'
     res.status(200).json(livro)
   } catch (error) {
     res.status(400).json({ erro: error })
+  }
+})
+
+// ==================== AVALIAÇÕES ====================
+
+// Visualizar todas as avaliações, com filtros opcionais
+router.get("/avaliacoes", async (req, res) => {
+  /*
+#swagger.tags = ['Avaliações Admin']
+#swagger.summary = 'Consulta todas as avaliações'
+#swagger.description = 'Consulta todas as avaliações registradas, com filtros opcionais por livro, cliente, nota ou trecho do comentário.'
+#swagger.security = [
+  {
+    "bearerAuth": []
+  }
+]
+#swagger.parameters['authorization'] = {
+in: 'header',
+required: true,
+description: 'Token de autenticação (Bearer) — apenas admins',
+schema: {
+type: 'string'
+}
+}
+#swagger.parameters['livroId'] = {
+in: 'query',
+required: false,
+schema: {
+type: 'integer'
+}
+}
+#swagger.parameters['clienteId'] = {
+in: 'query',
+required: false,
+schema: {
+type: 'string'
+}
+}
+#swagger.parameters['nota'] = {
+in: 'query',
+required: false,
+schema: {
+type: 'integer'
+}
+}
+#swagger.parameters['comentario'] = {
+in: 'query',
+required: false,
+description: 'Filtra por trecho do comentário (não diferencia maiúsculas de minúsculas)',
+schema: {
+type: 'string'
+}
+}
+#swagger.responses[200] = {
+description: 'Avaliações consultadas com sucesso.'
+}
+#swagger.responses[401] = {
+description: 'Token não fornecido ou inválido.'
+}
+#swagger.responses[500] = {
+description: 'Erro interno do servidor.'
+}
+*/
+  const { livroId, clienteId, nota, comentario } = req.query
+
+  const where: Record<string, unknown> = {}
+
+  if (livroId) where.livroId = Number(livroId)
+  if (clienteId) where.clienteId = String(clienteId)
+  if (nota) where.nota = Number(nota)
+  if (comentario) where.comentario = { contains: String(comentario), mode: "insensitive" }
+
+  try {
+    const avaliacoes = await prisma.avaliacao.findMany({
+      where,
+      orderBy: { criadoEm: "desc" },
+      include: {
+        cliente: { select: { id: true, nome: true, email: true } },
+        livro: { select: { id: true, titulo: true, autor: true, capa: true } },
+        itemPedido: {
+          select: { id: true, pedido: { select: { id: true, status: true, dataPedido: true } } },
+        },
+      },
+    })
+
+    res.status(200).json(avaliacoes)
+  } catch (error) {
+    res.status(500).json({ erro: error })
+  }
+})
+
+// Avaliações de um livro específico
+router.get("/avaliacoes/livro/:livroId", async (req, res) => {
+  /*
+#swagger.tags = ['Avaliações Admin']
+#swagger.summary = 'Consulta as avaliações de um livro'
+#swagger.description = 'Retorna as avaliações de um livro específico, com o nome e o e-mail do cliente, a nota média e o total de avaliações.'
+#swagger.security = [
+  {
+    "bearerAuth": []
+  }
+]
+#swagger.parameters['authorization'] = {
+in: 'header',
+required: true,
+description: 'Token de autenticação (Bearer) — apenas admins',
+schema: {
+type: 'string'
+}
+}
+#swagger.parameters['livroId'] = {
+in: 'path',
+required: true,
+schema: {
+type: 'integer'
+}
+}
+#swagger.responses[200] = {
+description: 'Avaliações do livro consultadas com sucesso.'
+}
+#swagger.responses[401] = {
+description: 'Token não fornecido ou inválido.'
+}
+#swagger.responses[404] = {
+description: 'Livro não encontrado.'
+}
+#swagger.responses[500] = {
+description: 'Erro interno do servidor.'
+}
+*/
+  const { livroId } = req.params
+
+  try {
+    const livro = await prisma.livro.findUnique({
+      where: { id: Number(livroId) },
+      select: { id: true, titulo: true, autor: true, capa: true },
+    })
+
+    if (!livro) {
+      res.status(404).json({ erro: "Livro não encontrado" })
+      return
+    }
+
+    const avaliacoes = await prisma.avaliacao.findMany({
+      where: { livroId: Number(livroId) },
+      orderBy: { criadoEm: "desc" },
+      include: {
+        cliente: { select: { id: true, nome: true, email: true } },
+        itemPedido: {
+          select: { id: true, pedido: { select: { id: true, status: true, dataPedido: true } } },
+        },
+      },
+    })
+
+    const totalAvaliacoes = avaliacoes.length
+    const soma = avaliacoes.reduce((acc, a) => acc + a.nota, 0)
+
+    res.status(200).json({
+      livro,
+      notaMedia: totalAvaliacoes > 0 ? Math.round((soma / totalAvaliacoes) * 10) / 10 : null,
+      totalAvaliacoes,
+      avaliacoes,
+    })
+  } catch (error) {
+    res.status(500).json({ erro: error })
+  }
+})
+
+// Avaliações feitas por um cliente
+router.get("/avaliacoes/cliente/:clienteId", async (req, res) => {
+  /*
+#swagger.tags = ['Avaliações Admin']
+#swagger.summary = 'Consulta as avaliações de um cliente'
+#swagger.description = 'Retorna todas as avaliações feitas por um cliente, com os dados do livro e do pedido avaliado.'
+#swagger.security = [
+  {
+    "bearerAuth": []
+  }
+]
+#swagger.parameters['authorization'] = {
+in: 'header',
+required: true,
+description: 'Token de autenticação (Bearer) — apenas admins',
+schema: {
+type: 'string'
+}
+}
+#swagger.parameters['clienteId'] = {
+in: 'path',
+required: true,
+schema: {
+type: 'string'
+}
+}
+#swagger.responses[200] = {
+description: 'Avaliações do cliente consultadas com sucesso.'
+}
+#swagger.responses[401] = {
+description: 'Token não fornecido ou inválido.'
+}
+#swagger.responses[404] = {
+description: 'Cliente não encontrado.'
+}
+#swagger.responses[500] = {
+description: 'Erro interno do servidor.'
+}
+*/
+  const { clienteId } = req.params
+
+  try {
+    const cliente = await prisma.cliente.findUnique({
+      where: { id: String(clienteId) },
+      select: { id: true, nome: true, email: true },
+    })
+
+    if (!cliente) {
+      res.status(404).json({ erro: "Cliente não encontrado" })
+      return
+    }
+
+    const avaliacoes = await prisma.avaliacao.findMany({
+      where: { clienteId: String(clienteId) },
+      orderBy: { criadoEm: "desc" },
+      include: {
+        livro: { select: { id: true, titulo: true, autor: true, capa: true } },
+        itemPedido: {
+          select: { id: true, pedido: { select: { id: true, status: true, dataPedido: true } } },
+        },
+      },
+    })
+
+    res.status(200).json({ cliente, totalAvaliacoes: avaliacoes.length, avaliacoes })
+  } catch (error) {
+    res.status(500).json({ erro: error })
   }
 })
 

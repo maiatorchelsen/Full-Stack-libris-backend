@@ -38,6 +38,7 @@ model avaliacao {
   nota      Int      @db.SmallInt
   comentario String?
   criadoEm  DateTime @default(now())
+  atualizadoEm DateTime @updatedAt
 
   livro     Livro    @relation(fields: [livroId], references: [id])
   livroId   Int
@@ -45,6 +46,10 @@ model avaliacao {
   cliente   Cliente  @relation(fields: [clienteId], references: [id])
   clienteId String   @db.VarChar(36)
 
+  itemPedido   ItemPedido @relation(fields: [itemPedidoId], references: [id])
+  itemPedidoId Int
+
+  @@unique([clienteId, itemPedidoId])
   @@map("avaliacoes")
 }
 
@@ -109,6 +114,8 @@ model ItemPedido {
 
   livro          Livro    @relation(fields: [livroId], references: [id])
   livroId        Int
+
+  avaliacoes     avaliacao[]
 
   @@map("itens_pedido")
 }
